@@ -150,7 +150,7 @@ class StatsDisplay extends Sprite
         var drwText:String = Std.string(__totalTime > 0 ? __drawCount - 2 : __drawCount); // ignore self
 		
 		__values.text = fpsText + "\n" + (__showSkipped ? skippedText + "\n" : "") +
-            memText + "\n" + (__gpuMemory >= 0 ? gpuMemText + "\n" : "") + drwText;
+            memText + "\n" + (__gpuMemory >= 0 ? gpuMemText + "\n" : "-\n") + drwText;
     }
 
 	private function updateLabels():Void

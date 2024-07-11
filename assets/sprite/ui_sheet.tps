@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,9 +82,9 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png</enum>
+        <enum type="SettingsBase::TextureFormat">png8</enum>
         <key>borderPadding</key>
-        <uint>0</uint>
+        <uint>2</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
@@ -132,7 +132,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>ui_sheet.xml</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -159,11 +159,11 @@
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
-            <double>1</double>
+            <double>0.5</double>
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>1</uint>
+            <uint>2</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
@@ -181,8 +181,9 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../img/note_base.png</key>
-            <key type="filename">../img/note_border.png</key>
+            <key type="filename">../../../../../projects/BeatFusion/assets/img/note_base.png</key>
+            <key type="filename">../../../../../projects/BeatFusion/assets/img/note_border.png</key>
+            <key type="filename">../../../../../projects/BeatFusion/assets/img/note_highlight.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -200,8 +201,9 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>../img/note_border.png</filename>
-            <filename>../img/note_base.png</filename>
+            <filename>../../../../../projects/BeatFusion/assets/img/note_border.png</filename>
+            <filename>../../../../../projects/BeatFusion/assets/img/note_base.png</filename>
+            <filename>../../../../../projects/BeatFusion/assets/img/note_highlight.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

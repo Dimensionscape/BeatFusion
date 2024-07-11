@@ -1,7 +1,9 @@
 package;
 
-import bf.util.AssetManager;
+import bf.view.NoteView;
+import bf.asset.AssetManager;
 import starling.display.Sprite;
+import bf.ui.Note;
 
 /**
  * ...
@@ -14,7 +16,10 @@ class Main extends Sprite
 	{
 		super();		
 		
-		trace(AssetManager.getSpritesheet(UI));
+		var noteView:NoteView = new NoteView();
+		noteView.x = 580;
+		noteView.y = 16;
+		addChild(noteView);
 	}
 
 }

@@ -1,4 +1,4 @@
-package bf.util;
+package bf.asset;
 
 import bf.asset.Spritesheets;
 import openfl.display.BitmapData;

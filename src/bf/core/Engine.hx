@@ -1,7 +1,7 @@
 package bf.core;
 
 import bf._internal.macros.StarlingMacro;
-import bf.util.AssetManager;
+import bf.asset.AssetManager;
 import emitter.signals.Emitter;
 import haxe.Json;
 import haxe.Timer;
