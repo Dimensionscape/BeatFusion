@@ -1,6 +1,7 @@
 package bf.core;
 
 import bf._internal.macros.StarlingMacro;
+import bf.util.AssetManager;
 import emitter.signals.Emitter;
 import haxe.Json;
 import haxe.Timer;
@@ -61,10 +62,15 @@ import openfl.Lib;
 		}
 		
 		_starling = new Starling(Main, stage, viewport);		
+		_starling.addEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		_starling.start();
 		_starling.showStats = true;
-		
-		
+			
+	}
+	
+	private function _onContextCreated(e:Event):Void{
+		_starling.removeEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
+		AssetManager.init();
 	}
 	
 	

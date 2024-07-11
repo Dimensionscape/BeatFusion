@@ -1,6 +1,6 @@
 package;
 
-import starling.display.Quad;
+import bf.util.AssetManager;
 import starling.display.Sprite;
 
 /**
@@ -12,11 +12,9 @@ class Main extends Sprite
 
 	public function new() 
 	{
-		super();
+		super();		
 		
-		trace("hello starling");
-		var quad:Quad = new Quad(32, 32);
-		addChild(quad);
+		trace(AssetManager.getSpritesheet(UI));
 	}
 
 }

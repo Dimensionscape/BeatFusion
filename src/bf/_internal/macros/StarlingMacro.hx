@@ -31,8 +31,6 @@ class StarlingMacro
 
         // Replace keys and values with double quotes
         var modifiedString = regex.replace(input, "\"$1\":\"$2\"");
-
-		trace(modifiedString);
        
 		return modifiedString;
     }
