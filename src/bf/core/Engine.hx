@@ -1,5 +1,7 @@
 package bf.core;
 
+import bf.input.keyboard.KeyboardManager;
+import bf.sound.SoundManager;
 import bf._internal.macros.StarlingMacro;
 import bf.asset.AssetManager;
 import emitter.signals.Emitter;
@@ -71,6 +73,8 @@ import openfl.Lib;
 	private function _onContextCreated(e:Event):Void{
 		_starling.removeEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		AssetManager.init();
+		SoundManager.init();
+		KeyboardManager.start(_starling.nativeStage);		
 	}
 	
 	

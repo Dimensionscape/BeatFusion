@@ -101,7 +101,7 @@ class SoundManager {
 		@throws Error This error occurs when the SoundManager is already initialized. Dispose of it before attempting to
 		call Init again.
 	**/
-	public static function Init(soundCollection:SoundCollection = null):Void {
+	public static function init(soundCollection:SoundCollection = null):Void {
 		if (isInitialized)
 			throw new Error("The SoundManager is already intialized and it must be disposed before calling Init again");
 		isInitialized = true;
