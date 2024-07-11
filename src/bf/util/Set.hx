@@ -1,4 +1,4 @@
-package keyboardhx.utils;
+package bf.util;
 import openfl.utils.Object;
 import haxe.ds.Map;
 

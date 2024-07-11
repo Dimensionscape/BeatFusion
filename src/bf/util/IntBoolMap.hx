@@ -1,4 +1,4 @@
-package keyboardhx.utils;
+package bf.util;
 
 import haxe.ds.IntMap;
 

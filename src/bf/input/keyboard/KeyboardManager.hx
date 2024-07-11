@@ -1,11 +1,11 @@
-package keyboardhx.keyboard;
+package bf.input.keyboard;
 
 import haxe.ds.IntMap;
 import openfl.errors.Error;
 import openfl.display.Stage;
 import openfl.events.KeyboardEvent;
-import keyboardhx.utils.Set;
-import keyboardhx.keyboard.KeyCode;
+import bf.util.Set;
+import bf.input.keyboard.KeyCode;
 import openfl.utils.Function;
 
 /**

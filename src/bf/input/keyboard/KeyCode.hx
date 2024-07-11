@@ -1,4 +1,4 @@
-package keyboardhx.keyboard;
+package bf.input.keyboard;
 
 /**
  * @author Christopher Speciale
