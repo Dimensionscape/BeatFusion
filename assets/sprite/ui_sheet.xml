@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:8d78b7013edb5800d911b95c90626d54:e4b99656345092b9efd3980e2132d659:b80b2ce18a94884e31b38c71f2bf32bc$ -->
+<TextureAtlas imagePath="ui_sheet.png" width="314" height="159">
+    <SubTexture name="note_base" x="1" y="1" width="155" height="157"/>
+    <SubTexture name="note_border" x="158" y="1" width="155" height="157"/>
+</TextureAtlas>

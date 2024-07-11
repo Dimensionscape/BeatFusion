@@ -1,0 +1,10 @@
+{
+	"spritesheets":[
+		{
+			"id":"ui",
+			"image":"sprite/ui_sheet.png",
+			"data":"sprite/ui_sheet.xml"
+		}
+		
+	]
+}
