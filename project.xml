@@ -16,7 +16,8 @@
 	<source path="src" />
 	<!--<haxelib name="openfl" /> -->
 	<haxelib name="emitter" />
-	
+	<haxelib name="openfl" path="dependencies/openfl/" />
+
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
 	<assets path="assets/img" rename="img" />
