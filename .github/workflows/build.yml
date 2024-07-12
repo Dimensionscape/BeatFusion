@@ -39,11 +39,13 @@ jobs:
           haxelib install lime --quiet  
           haxelib install emitter --quiet    
           
-      - name: Build Windows (32-Bit)
-        run: haxelib run lime build windows
+      - name: Build Windows(32-Bit)
+        run: |
+          haxelib run lime build $GITHUB_WORKSPACE Windows   
           
       - name: Build HTML5
-        run: haxelib run lime build html5    
+        run: |
+          haxelib run lime build $GITHUB_WORKSPACE html5    
             
       - uses: actions/upload-artifact@v3
         with:
