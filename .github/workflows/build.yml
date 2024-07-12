@@ -15,7 +15,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Setup Environment Variables
+      - name: Setup Haxe Environment Variables
         run: |
           echo "HAXE_VERSION=4.3.4" >> $GITHUB_ENV
           echo "LIME_VERSION=7.9.0" >> $GITHUB_ENV
@@ -29,7 +29,8 @@ jobs:
         with:
           haxe-version: ${{ env.HAXE_VERSION }}
 
-      - run: haxe -version
+      - name: Check Haxe Version
+        run: haxe -version
 
       - name: Set HAXEPATH
         run: |
