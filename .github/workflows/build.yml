@@ -37,7 +37,8 @@ jobs:
           haxelib install hxcpp --quiet
           haxelib install format --quiet
           haxelib install lime --quiet  
-          haxelib install emitter --quiet    
+          haxelib install emitter --quiet  
+          haxelib run lime setup
           
       - name: Build Windows(32-Bit)
         run: |
