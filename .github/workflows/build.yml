@@ -8,20 +8,22 @@ on:
   pull_request:
     branches: [ "main" ]
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Build-Project:
     runs-on: windows-latest
     steps:
     
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
         with:
           submodules: true
           
       - uses: krdlab/setup-haxe@v1
         with:
-          haxe-version: 4.3.4
+          haxe-version: 4.2.5
       - run: |
           haxe -version
           
@@ -34,12 +36,13 @@ jobs:
         run: |
           haxelib install hxcpp --quiet
           haxelib install format --quiet
-          haxelib install lime 7.9.0 --quiet    
-          haxelib install emitter --quiet    
+          haxelib install lime --quiet  
+          haxelib install emitter --quiet  
+          haxelib run lime setup -alias -y
           
       - name: Build Windows(32-Bit)
         run: |
-          haxelib run lime build $GITHUB_WORKSPACE Windows   
+          lime build $GITHUB_WORKSPACE Windows   
           
       - name: Build HTML5
         run: |
@@ -47,9 +50,9 @@ jobs:
             
       - uses: actions/upload-artifact@v3
         with:
-          name: Window(32-Bit) Build
+          name: Windows (32-Bit) Build
           path: |
-            D:/a/BeatFusion/BeatFusion/bin/windows/bin  
+            D:/a/BeatFusion/BeatFusion/bin/windows/bin
             
       - uses: actions/upload-artifact@v3
         with:
@@ -61,6 +64,6 @@ jobs:
         uses: dswistowski/surge-sh-action@v1
         with:
           domain: dimensionscape.bfengine.surge.sh
-          project:  D:/a/BeatFusion/BeatFusion/bin/html5/bin 
+          project: D:/a/BeatFusion/BeatFusion/bin/html5/bin
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
