@@ -27,7 +27,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@v1
         with:
-          haxe-version: ${{ env.HAXE_VERSION }}
+          haxe-version: $HAXE_VERSION
 
       - name: Check Haxe Version
         run: |
