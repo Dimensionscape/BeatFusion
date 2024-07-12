@@ -25,6 +25,6 @@
 	<define name="no_openfl_entry_point" />
 	<define name="starling_viewport" value="{x:0, y:0, width:960, height:540}" />
 	<haxeflag name="--macro" value="include('bf.core')"/>
-	
+	<preloader name="CustomPreloader" />
 	
 </project>

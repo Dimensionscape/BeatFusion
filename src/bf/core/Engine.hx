@@ -1,5 +1,7 @@
 package bf.core;
 
+import openfl.display.LoaderInfo;
+import openfl.events.ProgressEvent;
 import bf.input.keyboard.KeyboardManager;
 import bf.sound.SoundManager;
 import bf._internal.macros.StarlingMacro;
@@ -38,7 +40,10 @@ import openfl.Lib;
 	}
 	
 	public var starling(get, null):Starling;
+	public var nativeStage:Stage;
 	
+	public var viewport:Rectangle;
+
 	private var _starling:Starling;
 	public var overlay(get, never):Sprite;
 	
@@ -51,26 +56,53 @@ import openfl.Lib;
 		return _starling.nativeOverlay;
 	}
 	
+	
 	private function new(stage:Stage) 
 	{
 		super();
 		
-		var viewportData:Null<String> = StarlingMacro.getDef("starling_viewport");
-		var viewport:Rectangle = null;
+		this.nativeStage = stage;
+
+		var viewportData:Null<String> = StarlingMacro.getDef("starling_viewport");		
 		
 		if (viewportData != null){
 			var viewportObj = Json.parse(viewportData);
 			viewport = new Rectangle(viewportObj.x, viewportObj.y, viewportObj.width, viewportObj.height);	
 		}
-		
-		_starling = new Starling(Main, stage, viewport);		
+				
+		#if html5
+		stage.loaderInfo.addEventListener(ProgressEvent.PROGRESS, _onLoaderProgress);
+		stage.loaderInfo.addEventListener(Event.COMPLETE, _onComplete);
+		#else 
+		_init();
+		#end	
+	}
+
+	private function _onLoaderProgress(e:ProgressEvent):Void{			
+	}
+
+	private function _onComplete(e:Event):Void{
+		var loaderInfo:LoaderInfo = nativeStage.loaderInfo;
+
+		loaderInfo.removeEventListener(ProgressEvent.PROGRESS, _onLoaderProgress);
+		loaderInfo.removeEventListener(Event.COMPLETE, _onComplete);
+
+		_init();
+	}
+
+	private function _onProgress():Void{
+
+	}
+	
+	private function _init():Void{
+		_starling = new Starling(Main, nativeStage, viewport);		
 		_starling.addEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		_starling.start();
 		_starling.showStats = true;
-			
 	}
 	
 	private function _onContextCreated(e:Event):Void{
+		trace("but how");
 		_starling.removeEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		AssetManager.init();
 		SoundManager.init();
