@@ -9,7 +9,9 @@
 	<app main="Main" file="BeatFusion" path="bin" />
 	
 	<window background="#000000" fps="60" />
-	<window width="960" height="540" unless="mobile" />
+	<window width="960" height="540" unless="html5"/>
+	<window width="0" height="0" if="html5"/>
+
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->
