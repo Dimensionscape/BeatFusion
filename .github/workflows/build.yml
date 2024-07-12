@@ -1,0 +1,65 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  Build-Project:
+    runs-on: windows-latest
+    steps:
+    
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+          
+      - uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.3.4
+      - run: |
+          haxe -version
+          
+      - name: Set HAXEPATH
+        run: |
+          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
+          
+          
+      - name: Install External Dependencies
+        run: |
+          haxelib install hxcpp --quiet
+          haxelib install format --quiet
+          haxelib install lime 7.9.0 --quiet      
+          
+      - name: Build Windows(32-Bit)
+        run: |
+          haxelib run lime build $GITHUB_WORKSPACE Windows   
+          
+      - name: Build HTML5
+        run: |
+          haxelib run lime build $GITHUB_WORKSPACE html5    
+            
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Window(32-Bit) Build
+          path: |
+            D:/a/BeatFusion/BeatFusion/bin/windows/bin  
+            
+      - uses: actions/upload-artifact@v3
+        with:
+          name: HTML5 Build
+          path: |
+            D:/a/BeatFusion/BeatFusion/bin/html5/bin   
+            
+      - name: Deploy
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: dimensionscape.bfengine.surge.sh
+          project:  D:/a/BeatFusion/BeatFusion/bin/html5/bin 
+          login: ${{ secrets.surge_login }}
+          token: ${{ secrets.surge_token }}
