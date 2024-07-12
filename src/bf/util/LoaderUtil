@@ -11,7 +11,7 @@ import openfl.net.URLRequest;
 /**
  * A basic loader class for managing URL loading with progress and completion events.
  */
-class AbstructLoader extends EventDispatcher {
+class LoaderUtil extends EventDispatcher {
 
     /** The total bytes to be loaded. */
     public var _bytesTotal:Float;
