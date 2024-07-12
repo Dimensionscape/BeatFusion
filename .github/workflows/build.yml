@@ -38,11 +38,11 @@ jobs:
           haxelib install format --quiet
           haxelib install lime --quiet  
           haxelib install emitter --quiet  
-          haxelib run lime setup
+          haxelib run lime setup -alias -y
           
       - name: Build Windows(32-Bit)
         run: |
-          haxelib run lime build ${{ github.workspace }} Windows   
+          lime build $GITHUB_WORKSPACE Windows   
           
       - name: Build HTML5
         run: |
