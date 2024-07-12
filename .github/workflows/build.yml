@@ -1,68 +1,60 @@
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Build-Project:
     runs-on: windows-latest
     steps:
-    
       - uses: actions/checkout@v4
         with:
           submodules: true
-          
+
+      - name: Setup Environment Variables
+        run: |
+          echo "HAXE_VERSION=4.3.4" >> $GITHUB_ENV
+          echo "LIME_VERSION=7.9.0" >> $GITHUB_ENV
+          echo "HXCPP_VERSION=4.2.1" >> $GITHUB_ENV
+          echo "FORMAT_VERSION=3.5.0" >> $GITHUB_ENV
+          echo "EMITTER_VERSION=3.0.0" >> $GITHUB_ENV
+          echo "WINDOWS_BUILD_PATH=D:/a/BeatFusion/BeatFusion/bin/windows/bin" >> $GITHUB_ENV
+          echo "HTML5_BUILD_PATH=D:/a/BeatFusion/BeatFusion/bin/html5/bin" >> $GITHUB_ENV
+
       - uses: krdlab/setup-haxe@v1
         with:
-          haxe-version: 4.3.4
-      - run: |
-          haxe -version
-          
+          haxe-version: ${{ env.HAXE_VERSION }}
+
+      - run: haxe -version
+
       - name: Set HAXEPATH
         run: |
-          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
-          
-          
-      - name: Install External Dependencies
+          echo "HAXEPATH=${{ env.HAXE_STD_PATH }}/.." >> $GITHUB_ENV
+
+      - name: Install Dependencies
         run: |
-          haxelib install hxcpp --quiet
-          haxelib install format --quiet
-          haxelib install lime 7.9.0 --quiet  
-          haxelib install emitter --quiet  
-          
-      - name: Build Windows(32-Bit)
+          chmod +x .github/scripts/install_dependencies.sh
+          .github/scripts/install_dependencies.sh
+
+      - name: Build Projects
         run: |
-         haxelib run lime build $GITHUB_WORKSPACE Windows   
-          
-      - name: Build HTML5
+          chmod +x .github/scripts/build_projects.sh
+          .github/scripts/build_projects.sh
+
+      - name: Upload Artifacts
         run: |
-          haxelib run lime build $GITHUB_WORKSPACE html5    
-            
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Windows (32-Bit) Build
-          path: |
-            D:/a/BeatFusion/BeatFusion/bin/windows/bin
-            
-      - uses: actions/upload-artifact@v3
-        with:
-          name: HTML5 Build
-          path: |
-            D:/a/BeatFusion/BeatFusion/bin/html5/bin   
-            
+          chmod +x .github/scripts/upload_artifacts.sh
+          .github/scripts/upload_artifacts.sh
+
       - name: Deploy
+        if: always()
         uses: dswistowski/surge-sh-action@v1
         with:
           domain: dimensionscape.bfengine.surge.sh
-          project: D:/a/BeatFusion/BeatFusion/bin/html5/bin
+          project: ${{ env.HTML5_BUILD_PATH }}
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
