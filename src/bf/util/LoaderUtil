@@ -1,0 +1,126 @@
+package bf.util;
+
+import openfl.events.EventDispatcher;
+import openfl.events.Event;
+import openfl.events.ProgressEvent;
+import openfl.events.IOErrorEvent;
+import openfl.events.SecurityErrorEvent;
+import openfl.net.URLLoader;
+import openfl.net.URLRequest;
+
+/**
+ * A basic loader class for managing URL loading with progress and completion events.
+ */
+class AbstructLoader extends EventDispatcher {
+
+    /** The total bytes to be loaded. */
+    public var _bytesTotal:Float;
+    
+    /** The bytes that have been loaded. */
+    public var _bytesLoaded:Float;
+    
+    /** Flag indicating if the loading is completed. */
+    public var _isLoadCompleted:Bool;
+    
+
+    /** The URLLoader instance for loading data. */
+    private var _loader:URLLoader;
+    
+    /** Array of child loaders. */
+    private var _childLoaders:Array<AbstructLoader>;
+    
+    /** Event priority. */
+    private var _eventPriority:Int;
+    
+
+    /**
+     * Constructor
+     * 
+     * @param priority The priority of the events dispatched by this loader.
+     */
+    public function new(priority:Int = 0) {
+        super();
+        _loader = new URLLoader();
+        _bytesTotal = 0;
+        _bytesLoaded = 0;
+        _isLoadCompleted = false;
+        _childLoaders = [];
+        _eventPriority = priority;
+    }
+    
+    
+    /**
+     * Loads the specified URL.
+     * 
+     * @param url The URLRequest object specifying the URL to load.
+     */
+    public function load(url:URLRequest):Void {
+        _loader.close();
+        _bytesTotal = 0;
+        _bytesLoaded = 0;
+        _isLoadCompleted = false;
+        _addAllListeners();
+        _loader.load(url);
+    }
+    
+    /**
+     * Adds a child loader.
+     * 
+     * @param child The AbstructLoader instance to add as a child.
+     */
+    public function addChild(child:AbstructLoader):Void {
+        _childLoaders.push(child);
+        child.addEventListener(Event.COMPLETE, _onChildComplete);
+    }    
+
+    /**
+     * Overridable function called when loading is complete.
+     */
+    private function onComplete():Void {}
+    
+
+    private function _onProgress(e:ProgressEvent):Void {
+        _bytesTotal = e.bytesTotal;
+        _bytesLoaded = e.bytesLoaded;
+        _isLoadCompleted = false;
+        dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, _bytesLoaded, _bytesTotal));
+    }
+    
+    private function _onComplete(e:Event):Void {
+        _removeAllListeners();
+        _bytesLoaded = _bytesTotal;
+        _isLoadCompleted = true;
+        onComplete();
+        if (_childLoaders.length == 0) {
+            dispatchEvent(new Event(Event.COMPLETE));
+        }
+    }
+    
+    private function _onError(e:ErrorEvent):Void {
+        _removeAllListeners();
+        dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, e.text));
+    }
+    
+    private function _onChildComplete(e:Event):Void {
+        var index:Int = _childLoaders.indexOf(cast(e.target, AbstructLoader));
+        if (index == -1) throw "AbstructLoader; unknown error, children mismatched.";
+        _childLoaders.splice(index, 1);
+        if (_childLoaders.length == 0 && _isLoadCompleted) {
+            dispatchEvent(new Event(Event.COMPLETE));
+        }
+    }
+    
+    private function _addAllListeners():Void {
+        _loader.addEventListener(Event.COMPLETE, _onComplete, false, _eventPriority);
+        _loader.addEventListener(ProgressEvent.PROGRESS, _onProgress, false, _eventPriority);
+        _loader.addEventListener(IOErrorEvent.IO_ERROR, _onError, false, _eventPriority);
+        _loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, _onError, false, _eventPriority);
+    }
+    
+    private function _removeAllListeners():Void {
+        _loader.removeEventListener(Event.COMPLETE, _onComplete);
+        _loader.removeEventListener(ProgressEvent.PROGRESS, _onProgress);
+        _loader.removeEventListener(IOErrorEvent.IO_ERROR, _onError);
+        _loader.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, _onError);
+    }
+}
