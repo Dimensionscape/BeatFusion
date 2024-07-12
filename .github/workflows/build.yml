@@ -41,7 +41,7 @@ jobs:
           
       - name: Build Windows(32-Bit)
         run: |
-          haxelib run lime build $GITHUB_WORKSPACE Windows   
+          haxelib run lime build ${{ github.workspace }} Windows   
           
       - name: Build HTML5
         run: |
