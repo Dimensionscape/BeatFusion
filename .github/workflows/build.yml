@@ -30,7 +30,8 @@ jobs:
           haxe-version: ${{ env.HAXE_VERSION }}
 
       - name: Check Haxe Version
-        run: haxe -version
+        run: |
+          haxe -version
 
       - name: Set HAXEPATH
         run: |
