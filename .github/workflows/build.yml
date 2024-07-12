@@ -14,22 +14,18 @@ jobs:
   Build-Project:
     runs-on: windows-latest
     steps:
-    
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         with:
           submodules: true
           
       - uses: krdlab/setup-haxe@v1
         with:
           haxe-version: 4.3.4
-      - run: |
-          haxe -version
+
+      - run: haxe -version
           
       - name: Set HAXEPATH
-        run: |
-          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
-          echo $GITHUB_WORKSPACE
-          
+        run: echo "HAXEPATH=${{ env.HAXE_STD_PATH }}/.." >> $GITHUB_ENV
           
       - name: Install External Dependencies
         run: |
@@ -38,19 +34,17 @@ jobs:
           haxelib install lime 7.9.0 --quiet    
           haxelib install emitter --quiet    
           
-      - name: Build Windows(32-Bit)
-        run: |
-          haxelib run lime build Windows   
+      - name: Build Windows (32-Bit)
+        run: haxelib run lime build windows
           
       - name: Build HTML5
-        run: |
-          haxelib run lime build $GITHUB_WORKSPACE html5    
+        run: haxelib run lime build html5    
             
       - uses: actions/upload-artifact@v3
         with:
-          name: Window(32-Bit) Build
+          name: Windows (32-Bit) Build
           path: |
-            D:/a/BeatFusion/BeatFusion/bin/windows/bin  
+            D:/a/BeatFusion/BeatFusion/bin/windows/bin
             
       - uses: actions/upload-artifact@v3
         with:
@@ -62,6 +56,6 @@ jobs:
         uses: dswistowski/surge-sh-action@v1
         with:
           domain: dimensionscape.bfengine.surge.sh
-          project:  D:/a/BeatFusion/BeatFusion/bin/html5/bin 
+          project: D:/a/BeatFusion/BeatFusion/bin/html5/bin
           login: ${{ secrets.surge_login }}
           token: ${{ secrets.surge_token }}
