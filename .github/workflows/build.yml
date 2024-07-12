@@ -34,11 +34,7 @@ jobs:
         run: |
           haxelib install hxcpp --quiet
           haxelib install format --quiet
-          haxelib install lime --quiet
-
-      - name: Build Neko
-        run: |
-          haxelib run lime build $GITHUB_WORKSPACE Neko
+          haxelib install lime 7.9.0 --quiet      
           
       - name: Build Windows(32-Bit)
         run: |
@@ -47,12 +43,6 @@ jobs:
       - name: Build HTML5
         run: |
           haxelib run lime build $GITHUB_WORKSPACE html5    
-          
-      #- uses: actions/upload-artifact@v3
-      #  with:
-      #    name: Neko Build
-      #    path: |
-      #      D:/a/to-heck-with-neko-man 
             
       - uses: actions/upload-artifact@v3
         with:
