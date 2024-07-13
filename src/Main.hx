@@ -1,5 +1,6 @@
 package;
 
+import bf.asset.Spritesheets;
 import bf.input.keyboard.KeyboardManager;
 import bf.view.NoteView;
 import bf.asset.AssetManager;
@@ -22,6 +23,7 @@ class Main extends Sprite
 		noteView.y = 16;
 		addChild(noteView);
 
+		AssetManager.getSpritesheet(GF);
 
 		KeyboardManager.setKeyDownCallback(LEFT, ()->{
 			noteView.leftNote.isActive = true;
