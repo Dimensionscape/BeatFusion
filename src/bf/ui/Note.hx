@@ -69,12 +69,13 @@ class Note extends MeshBatch
 		_baseQuad = Quad.fromTexture(_baseTexture);
 
 		_borderQuad = Quad.fromTexture(_borderTexture);
+		_borderQuad.textureSmoothing="none";
 
 		_highlightQuad = Quad.fromTexture(_highlightTexture);
 
 		validate();
 
-		this.textureSmoothing = "trilinear";
+		this.textureSmoothing = "none";
 	}
 
 	public function validate():Void{

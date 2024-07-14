@@ -23,7 +23,7 @@ class Main extends Sprite
 		noteView.y = 16;
 		addChild(noteView);
 
-		AssetManager.getSpritesheet(GF);
+		
 
 		KeyboardManager.setKeyDownCallback(LEFT, ()->{
 			noteView.leftNote.isActive = true;

@@ -1,5 +1,6 @@
 package bf.graphics;
 
+import bf.core.Engine;
 import starling.animation.Juggler;
 import starling.textures.Texture;
 import starling.display.MovieClip;
@@ -7,12 +8,12 @@ import starling.display.MovieClip;
 class Animation extends MovieClip {
 
     public var _juggler:Juggler;
-    public var _animateID:UInt;
+    public var _animateID:Null<Int>;
 
-    public var initialized(get, null):Bool;
+    public var juggler(get, null):Bool;
 
-    public function get_initialized():Bool {
-        return _juggler != null;
+    private inline function get_juggler():Bool {
+        return this._animateID != null;
     }
     
     public function new(textures:Array<Texture>, fps:Int, ?juggler:Juggler)
@@ -20,14 +21,21 @@ class Animation extends MovieClip {
             super(textures, fps);
 
             if(juggler != null){
-                this._juggler = juggler;
+                attach(juggler);
             }
         }
-    
-    public function initialize():Void{
-        if(_juggler != null){
-            _animateID = _juggler.add(this);
+
+    public function attach(?juggler:Juggler):Void{
+        if(this._animateID != null){
+            this._juggler.removeByID(this._animateID);
         }
+
+        if(juggler != null){
+            this._juggler = juggler;
+        } else {
+           this._juggler = Engine.engine.starling.juggler;
+        }        
         
+        this._animateID = this._juggler.add(this);
     }
 }

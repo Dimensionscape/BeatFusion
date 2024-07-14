@@ -99,6 +99,7 @@ import openfl.Lib;
 		_starling.addEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		_starling.start();
 		_starling.showStats = true;
+		_starling.antiAliasing = 16;
 	}
 	
 	private function _onContextCreated(e:Event):Void{
