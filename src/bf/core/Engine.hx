@@ -22,68 +22,64 @@ import openfl.Lib;
  * ...
  * @author Christopher Speciale
  */
-@:keep class Engine extends Emitter
-{
+@:keep class Engine extends Emitter {
 	public static var engine(default, null):Engine = _start();
-	
-	private static inline function _start():Engine{
-		Timer.delay(_setEngine, 0);		
+
+	private static inline function _start():Engine {
+		Timer.delay(_setEngine, 0);
 		return null;
 	}
-	
-	private static inline function _setEngine():Void{
-		if (Starling.current == null){
-			if (Lib.current.stage != null){
+
+	private static inline function _setEngine():Void {
+		if (Starling.current == null) {
+			if (Lib.current.stage != null) {
 				engine = new Engine(Lib.current.stage);
 			} else {
 				_start();
 			}
 		}
 	}
-	
+
 	public var starling(get, null):Starling;
 	public var nativeStage:Stage;
-	
+
 	public var viewport:Rectangle;
 
 	private var _starling:Starling;
+
 	public var overlay(get, never):Sprite;
-	
-	
-	private function get_starling():Starling{
+
+	private function get_starling():Starling {
 		return _starling;
 	}
-	
-	private function get_overlay():Sprite{
+
+	private function get_overlay():Sprite {
 		return _starling.nativeOverlay;
 	}
-	
-	
-	private function new(stage:Stage) 
-	{
+
+	private function new(stage:Stage) {
 		super();
-		
+
 		this.nativeStage = stage;
 
-		var viewportData:Null<String> = StarlingMacro.getDef("starling_viewport");		
-		
-		if (viewportData != null){
+		var viewportData:Null<String> = StarlingMacro.getDef("starling_viewport");
+
+		if (viewportData != null) {
 			var viewportObj = Json.parse(viewportData);
-			viewport = new Rectangle(viewportObj.x, viewportObj.y, viewportObj.width, viewportObj.height);	
+			viewport = new Rectangle(viewportObj.x, viewportObj.y, viewportObj.width, viewportObj.height);
 		}
-				
+
 		#if html5
 		stage.loaderInfo.addEventListener(ProgressEvent.PROGRESS, _onLoaderProgress);
 		stage.loaderInfo.addEventListener(Event.COMPLETE, _onComplete);
-		#else 
+		#else
 		_init();
-		#end	
+		#end
 	}
 
-	private function _onLoaderProgress(e:ProgressEvent):Void{			
-	}
+	private function _onLoaderProgress(e:ProgressEvent):Void {}
 
-	private function _onComplete(e:Event):Void{
+	private function _onComplete(e:Event):Void {
 		var loaderInfo:LoaderInfo = nativeStage.loaderInfo;
 
 		loaderInfo.removeEventListener(ProgressEvent.PROGRESS, _onLoaderProgress);
@@ -92,31 +88,26 @@ import openfl.Lib;
 		_init();
 	}
 
-	private function _onProgress():Void{
+	private function _onProgress():Void {}
 
-	}
-	
-	private function _init():Void{
-		_starling = new Starling(Main, nativeStage, viewport);		
+	private function _init():Void {
+		_starling = new Starling(Main, nativeStage, viewport);
 		_starling.addEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		_starling.start();
 		_starling.showStats = true;
 		_starling.antiAliasing = 16;
 	}
-	
-	private function _onContextCreated(e:Event):Void{
+
+	private function _onContextCreated(e:Event):Void {
 		trace("but how");
 		_starling.removeEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		AssetManager.init();
 		SoundManager.init();
-		KeyboardManager.start(_starling.nativeStage);	
+		KeyboardManager.start(_starling.nativeStage);
 		_starling.addEventListener(EnterFrameEvent.ENTER_FRAME, _onEnterFrameEvent);
 	}
 
-	private function _onEnterFrameEvent(e:EnterFrameEvent):Void{
-		//_starling.juggler.advanceTime(e.passedTime);
+	private function _onEnterFrameEvent(e:EnterFrameEvent):Void {
+		// _starling.juggler.advanceTime(e.passedTime);
 	}
-	
-	
 }
-

@@ -6,125 +6,124 @@ import starling.animation.Juggler;
 @:access(bf.graphics.Animation)
 @:generic
 class AnimatedSprite<T:KeyType> extends BaseSprite {
-    
-    private var _animationMap:Map<T, Animation>;
-    private var _juggler:Juggler;
-    private var _currentKey:T;
+	private var _animationMap:Map<T, Animation>;
+	private var _juggler:Juggler;
+	private var _currentKey:T;
 
-    public var juggler(get, set):Juggler;
+	public var juggler(get, set):Juggler;
 
-    private inline function get_juggler():Juggler {
-        return _juggler;
-    }
+	private inline function get_juggler():Juggler {
+		return _juggler;
+	}
 
-    private inline function set_juggler(value:Juggler):Juggler {
-        if(_juggler == value){
-            return value;
-        } 
-        
-        if (value == null){
-            _detatchJuggler();
-            return value;
-        }
+	private inline function set_juggler(value:Juggler):Juggler {
+		if (_juggler == value) {
+			return value;
+		}
 
-       return _attachJuggler(value);
-    }
+		if (value == null) {
+			_detatchJuggler();
+			return value;
+		}
 
-    public var current(get, null):Animation;
+		return _attachJuggler(value);
+	}
 
-    private var _current:Animation;
+	public var current(get, null):Animation;
 
-    private inline function get_current():Animation{
-        return _current;
-    }
+	private var _current:Animation;
 
-    public function new(?juggler:Juggler){
-        super();
-        _animationMap = new Map();
+	private inline function get_current():Animation {
+		return _current;
+	}
 
-        if(juggler == null){
-            _juggler = Starling.current.juggler;
-        }
-    }
+	public function new(?juggler:Juggler) {
+		super();
+		_animationMap = new Map();
 
-    public inline function play(?key:T):Animation{
-        if(_currentKey != key && key != null){
-            setCurrent(key);
-        }
-        
-        _current.play();
+		if (juggler == null) {
+			_juggler = Starling.current.juggler;
+		}
+	}
 
-        return _current;
-    }
+	public inline function play(?key:T):Animation {
+		if (_currentKey != key && key != null) {
+			setCurrent(key);
+		}
 
-    public inline function setCurrent(key:T):Void{
-        if(_current != null){
-            _current.stop();
-            removeChild(_current);
-        }
+		_current.play();
 
-        _current = get(key); 
-        _currentKey = key;
+		return _current;
+	}
 
-        addChild(_current);         
-    }
+	public inline function setCurrent(key:T):Void {
+		if (_current != null) {
+			_current.stop();
+			removeChild(_current);
+		}
 
-    public inline function stop():Void{
-        if(_current == null){
-            return;
-        } 
+		_current = get(key);
+		_currentKey = key;
 
-        _current.stop();
-    }
+		addChild(_current);
+	}
 
-    public inline function resume():Void{
-        if(_current == null){
-            return;
-        } 
+	public inline function stop():Void {
+		if (_current == null) {
+			return;
+		}
 
-        _current.play();
-    }
+		_current.stop();
+	}
 
-    public inline function isPlaying():Bool{
-        return _current != null && _current.isPlaying;
-    }
+	public inline function resume():Void {
+		if (_current == null) {
+			return;
+		}
 
-    public inline function get(key:T):Animation{
-       return  _animationMap.get(key);
-    }
+		_current.play();
+	}
 
-    public inline function exists(key:T):Bool{
-        return _animationMap.exists(key);
-    }
+	public inline function isPlaying():Bool {
+		return _current != null && _current.isPlaying;
+	}
 
-    public inline function set(key:T, animation:Animation):Animation{
-        _animationMap.set(key, animation);
-        animation.animID = juggler.add(animation);
-               
-        return animation;
-    }
+	public inline function get(key:T):Animation {
+		return _animationMap.get(key);
+	}
 
-    private function _detatchJuggler():Void{
-        for(animation in _animationMap){
-            _juggler.removeByID(animation.animID);
-        }        
+	public inline function exists(key:T):Bool {
+		return _animationMap.exists(key);
+	}
 
-        _juggler = null;
-    }
+	public inline function set(key:T, animation:Animation):Animation {
+		_animationMap.set(key, animation);
+		animation.animID = juggler.add(animation);
 
-    private function _attachJuggler(juggler:Juggler):Juggler{
-        for (animation in _animationMap){
-            if(_juggler != null){
-                _juggler.removeByID(animation.animID);
-            }
-            juggler.addWithID(animation, animation.animID);
-        }
+		return animation;
+	}
 
-        return _juggler = juggler;
-    }
+	private function _detatchJuggler():Void {
+		for (animation in _animationMap) {
+			_juggler.removeByID(animation.animID);
+		}
+
+		_juggler = null;
+	}
+
+	private function _attachJuggler(juggler:Juggler):Juggler {
+		for (animation in _animationMap) {
+			if (_juggler != null) {
+				_juggler.removeByID(animation.animID);
+			}
+			juggler.addWithID(animation, animation.animID);
+		}
+
+		return _juggler = juggler;
+	}
 }
 
 @:multiType
 abstract KeyType(Dynamic) from String to String from Int to Int {
-   // inline function new(v:Dynamic) this = v;
+	// inline function new(v:Dynamic) this = v;
 }
