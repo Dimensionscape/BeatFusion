@@ -1,5 +1,6 @@
 package;
 
+import starling.events.Event;
 import game.animations.gf.BaseDanceLeft;
 import game.animations.gf.BaseDanceRight;
 import bf.graphics.AnimatedSprite;
@@ -35,7 +36,17 @@ class Main extends Sprite
 		addChild(gf);
 
 		gf.setCurrent("danceRight");	
-		gf.play();	
+		gf.play();
+		
+		var left:Bool = true;
+		gf.addEventListener(Event.COMPLETE, (e:Event)->{
+			if(left){
+				gf.play("danceRight");
+			} else {
+				gf.play("danceLeft");
+			}
+			left = !left;
+		});
 
 		KeyboardManager.setKeyDownCallback(LEFT, ()->{
 			noteView.leftNote.isActive = true;

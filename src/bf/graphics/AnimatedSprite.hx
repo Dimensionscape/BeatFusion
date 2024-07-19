@@ -1,5 +1,6 @@
 package bf.graphics;
 
+import starling.events.Event;
 import starling.core.Starling;
 import starling.animation.Juggler;
 
@@ -99,8 +100,14 @@ class AnimatedSprite<T:KeyType> extends BaseSprite {
 	public inline function set(key:T, animation:Animation):Animation {
 		_animationMap.set(key, animation);
 		animation.animID = juggler.add(animation);
-
+		animation.addEventListener(Event.COMPLETE, _onLastFrame);
 		return animation;
+	}
+
+	public inline function remove(key:T):Bool {
+		var anim:Animation = _animationMap.get(key);
+		anim.removeEventListener(Event.COMPLETE, _onLastFrame);
+		return _animationMap.remove(key);
 	}
 
 	private function _detatchJuggler():Void {
@@ -120,6 +127,10 @@ class AnimatedSprite<T:KeyType> extends BaseSprite {
 		}
 
 		return _juggler = juggler;
+	}
+
+	private function _onLastFrame(e:Event):Void {
+		dispatchEvent(e);
 	}
 }
 
