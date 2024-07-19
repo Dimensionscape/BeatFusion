@@ -69,7 +69,6 @@ class Note extends MeshBatch
 		_baseQuad = Quad.fromTexture(_baseTexture);
 
 		_borderQuad = Quad.fromTexture(_borderTexture);
-		_borderQuad.textureSmoothing="none";
 
 		_highlightQuad = Quad.fromTexture(_highlightTexture);
 

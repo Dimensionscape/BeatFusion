@@ -1,5 +1,8 @@
 package;
 
+import game.animations.gf.BaseDanceLeft;
+import game.animations.gf.BaseDanceRight;
+import bf.graphics.AnimatedSprite;
 import bf.asset.Spritesheets;
 import bf.input.keyboard.KeyboardManager;
 import bf.view.NoteView;
@@ -22,8 +25,17 @@ class Main extends Sprite
 		noteView.x = 580;
 		noteView.y = 16;
 		addChild(noteView);
-
 		
+		var gfRight:BaseDanceRight = new BaseDanceRight();
+		var gfLeft:BaseDanceLeft = new BaseDanceLeft();
+
+		var gf:AnimatedSprite<String> = new AnimatedSprite();
+		gf.set("danceRight", gfRight);
+		gf.set("danceLeft", gfLeft);
+		addChild(gf);
+
+		gf.setCurrent("danceRight");	
+		gf.play();	
 
 		KeyboardManager.setKeyDownCallback(LEFT, ()->{
 			noteView.leftNote.isActive = true;

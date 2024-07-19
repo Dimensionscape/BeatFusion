@@ -1,5 +1,7 @@
 package bf.core;
 
+import starling.events.EnterFrameEvent;
+import haxe.io.BufferInput;
 import openfl.display.LoaderInfo;
 import openfl.events.ProgressEvent;
 import bf.input.keyboard.KeyboardManager;
@@ -107,7 +109,12 @@ import openfl.Lib;
 		_starling.removeEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		AssetManager.init();
 		SoundManager.init();
-		KeyboardManager.start(_starling.nativeStage);		
+		KeyboardManager.start(_starling.nativeStage);	
+		_starling.addEventListener(EnterFrameEvent.ENTER_FRAME, _onEnterFrameEvent);
+	}
+
+	private function _onEnterFrameEvent(e:EnterFrameEvent):Void{
+		//_starling.juggler.advanceTime(e.passedTime);
 	}
 	
 	
