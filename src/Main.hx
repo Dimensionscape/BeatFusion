@@ -1,5 +1,6 @@
 package;
 
+import bf.core.Engine;
 import starling.events.Event;
 import game.animations.gf.BaseDanceLeft;
 import game.animations.gf.BaseDanceRight;
@@ -50,14 +51,17 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(LEFT, ()->{
 			noteView.leftNote.isActive = true;
+			Engine.engine.camera.x -= 5;
 		});
 
 		KeyboardManager.setKeyUpCallback(LEFT, ()->{
 			noteView.leftNote.isActive = false;
+			
 		});
 
 		KeyboardManager.setKeyDownCallback(RIGHT, ()->{
 			noteView.rightNote.isActive = true;
+			Engine.engine.camera.x += 5;
 		});
 
 		KeyboardManager.setKeyUpCallback(RIGHT, ()->{
@@ -66,6 +70,7 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(UP, ()->{
 			noteView.upNote.isActive = true;
+			Engine.engine.camera.y -= 5;
 		});
 
 		KeyboardManager.setKeyUpCallback(UP, ()->{
@@ -74,6 +79,7 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(DOWN, ()->{
 			noteView.downNote.isActive = true;
+			Engine.engine.camera.y += 5;
 		});
 
 		KeyboardManager.setKeyUpCallback(DOWN, ()->{

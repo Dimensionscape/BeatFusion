@@ -1,5 +1,6 @@
 package bf.core;
 
+import starling.display.DisplayObjectContainer;
 import starling.events.EnterFrameEvent;
 import haxe.io.BufferInput;
 import openfl.display.LoaderInfo;
@@ -22,6 +23,7 @@ import openfl.Lib;
  * ...
  * @author Christopher Speciale
  */
+ @:access(bf.core.Camera2D)
 @:keep class Engine extends Emitter {
 	public static var engine(default, null):Engine = _start();
 
@@ -44,11 +46,16 @@ import openfl.Lib;
 	public var nativeStage:Stage;
 
 	public var viewport:Rectangle;
+	public var camera(get, null):Camera2D;
 
 	private var _starling:Starling;
 
+	private var _camera:Camera2D;
 	public var overlay(get, never):Sprite;
 
+	private function get_camera():Camera2D{
+		return _camera;
+	}
 	private function get_starling():Starling {
 		return _starling;
 	}
@@ -93,18 +100,26 @@ import openfl.Lib;
 	private function _init():Void {
 		_starling = new Starling(Main, nativeStage, viewport);
 		_starling.addEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
+		_starling.addEventListener(Event.ROOT_CREATED, _onRootCreated);
 		_starling.start();
 		_starling.showStats = true;
 		_starling.antiAliasing = 16;
 	}
 
 	private function _onContextCreated(e:Event):Void {
-		trace("but how");
 		_starling.removeEventListener(Event.CONTEXT3D_CREATE, _onContextCreated);
 		AssetManager.init();
 		SoundManager.init();
 		KeyboardManager.start(_starling.nativeStage);
-		_starling.addEventListener(EnterFrameEvent.ENTER_FRAME, _onEnterFrameEvent);
+
+		//_starling.addEventListener(EnterFrameEvent.ENTER_FRAME, _onEnterFrameEvent);
+	}
+
+	private function _onRootCreated(e:Event):Void{
+		var root:DisplayObjectContainer = cast _starling.root;
+		trace(root);
+		_camera = new Camera2D(root);
+
 	}
 
 	private function _onEnterFrameEvent(e:EnterFrameEvent):Void {
