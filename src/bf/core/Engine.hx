@@ -117,7 +117,7 @@ import openfl.Lib;
 
 	private function _onRootCreated(e:Event):Void{
 		var root:DisplayObjectContainer = cast _starling.root;
-		trace(root);
+		
 		_camera = new Camera2D(root);
 
 	}
