@@ -1,15 +1,16 @@
 package bf.core;
 
+import starling.animation.Tween;
+import starling.animation.Juggler;
 import starling.display.DisplayObjectContainer;
 import starling.events.EventDispatcher;
-import starling.display.Sprite;
 import starling.events.Event;
 
 class Camera2D extends EventDispatcher {
-    public var x(get, set):Float;
-    public var y(get, set):Float;    
+	public var x(get, set):Float;
+	public var y(get, set):Float;
 	public var zoom(get, set):Float;
-    public var rotation(get, set):Float;
+	public var rotation(get, set):Float;
 
 	private var _x:Float;
 	private var _y:Float;
@@ -22,10 +23,11 @@ class Camera2D extends EventDispatcher {
 	private var _minY:Float;
 	private var _maxY:Float;
 
+	private var _juggler:Juggler;
+
 	private function new(target:DisplayObjectContainer) {
-        super();
-        
-        trace(target);
+		super();
+
 		this._target = target;
 		this._x = 0;
 		this._y = 0;
@@ -35,6 +37,8 @@ class Camera2D extends EventDispatcher {
 		this._maxX = Math.POSITIVE_INFINITY;
 		this._minY = Math.NEGATIVE_INFINITY;
 		this._maxY = Math.POSITIVE_INFINITY;
+
+		_juggler = Engine.engine.starling.juggler;
 	}
 
 	public inline function get_x():Float {
@@ -43,10 +47,10 @@ class Camera2D extends EventDispatcher {
 
 	public inline function set_x(value:Float):Float {
 		_x = Math.max(_minX, Math.min(_maxX, value));
-		applyTransformations();
+		applyTranslationX();
+		_dispatchChangeEvent();
 		return _x;
 	}
-
 
 	public inline function get_y():Float {
 		return _y;
@@ -54,7 +58,8 @@ class Camera2D extends EventDispatcher {
 
 	public inline function set_y(value:Float):Float {
 		_y = Math.max(_minY, Math.min(_maxY, value));
-		applyTransformations();
+		applyTranslationY();
+		_dispatchChangeEvent();
 		return _y;
 	}
 
@@ -79,8 +84,10 @@ class Camera2D extends EventDispatcher {
 	}
 
 	public inline function setPosition(x:Float, y:Float):Void {
-		this.x = x;
-		this.y = y;
+		_x = x;
+		_y = y;
+		applyTranslation();
+		_dispatchChangeEvent();
 	}
 
 	public function setBoundaries(minX:Float, maxX:Float, minY:Float, maxY:Float):Void {
@@ -88,6 +95,30 @@ class Camera2D extends EventDispatcher {
 		this._maxX = maxX;
 		this._minY = minY;
 		this._maxY = maxY;
+	}
+
+	public function easeTo(x:Float, y:Float, duration:Float = 0.5):Void {
+		var properties:Dynamic = {
+			"x": -(_x + x) * _zoom,
+			"y": -(_y + y) * _zoom
+		}
+		_juggler.tween(_target, duration, properties);
+	}
+
+	public function easeX(value:Float, duration:Float = 0.5):Void {
+		var properties:Dynamic = {
+			"x": _target.x + -(_x + value) * _zoom
+		}
+		_juggler.tween(_target, duration, properties);
+		_juggler.delayCall(_dispatchChangeEvent, duration);
+	}
+
+	public function easeY(value:Float, duration:Float = 0.5):Void {
+		var properties:Dynamic = {
+			"y": _target.y + -(_y + value) * _zoom
+		}
+		_juggler.tween(_target, duration, properties);
+		_juggler.delayCall(_dispatchChangeEvent, duration);
 	}
 
 	private function applyTransformations():Void {
@@ -99,6 +130,23 @@ class Camera2D extends EventDispatcher {
 		_target.rotation = _rotation;
 
 		// Dispatch an event to notify listeners of the transformation change
+		_dispatchChangeEvent();
+	}
+
+	private inline function applyTranslation():Void {
+		applyTranslationX();
+		applyTranslationY();
+	}
+
+	private inline function applyTranslationX():Void {
+		_target.x = -_x * _zoom;
+	}
+
+	private inline function applyTranslationY():Void {
+		_target.y = -_y * _zoom;
+	}
+
+	private inline function _dispatchChangeEvent():Void {
 		dispatchEventWith(Event.CHANGE);
 	}
 }

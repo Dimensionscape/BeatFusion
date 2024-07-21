@@ -51,7 +51,7 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(LEFT, ()->{
 			noteView.leftNote.isActive = true;
-			Engine.engine.camera.x -= 5;
+			Engine.engine.camera.easeX(-130);
 		});
 
 		KeyboardManager.setKeyUpCallback(LEFT, ()->{
@@ -61,7 +61,7 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(RIGHT, ()->{
 			noteView.rightNote.isActive = true;
-			Engine.engine.camera.x += 5;
+			Engine.engine.camera.easeX(130);
 		});
 
 		KeyboardManager.setKeyUpCallback(RIGHT, ()->{
@@ -70,7 +70,7 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(UP, ()->{
 			noteView.upNote.isActive = true;
-			Engine.engine.camera.y -= 5;
+			Engine.engine.camera.easeY(-130);
 		});
 
 		KeyboardManager.setKeyUpCallback(UP, ()->{
@@ -79,7 +79,7 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(DOWN, ()->{
 			noteView.downNote.isActive = true;
-			Engine.engine.camera.y += 5;
+			Engine.engine.camera.easeY(130);
 		});
 
 		KeyboardManager.setKeyUpCallback(DOWN, ()->{
