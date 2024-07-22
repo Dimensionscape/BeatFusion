@@ -122,15 +122,33 @@ class Camera2D extends EventDispatcher {
 
     public function applyEffect(effect:CameraEffect):Void {
         switch(effect) {
+            case Bounce(intensity, duration):
+                bounce(intensity, duration);
             case EaseTo(x, y, duration):
                 easeTo(x, y, duration);
             case EaseX(value, duration):
                 easeX(value, duration);
             case EaseY(value, duration):
                 easeY(value, duration);
+            case EaseZ(value, duration):
+                easeZ(value, duration);
             case Shake(intensity, duration):
                 shake(intensity, duration);
             // Add other effects here
+        }
+    }
+
+    private function bounce(intensity:Float, duration:Float):Void {
+        if (_target != null) {
+            var originalZoom = _zoom;
+            var bounceIn = new Tween(this, duration / 2);
+            bounceIn.animate("zoom", originalZoom + intensity);
+            bounceIn.onComplete = function() {
+                var bounceOut = new Tween(this, duration / 2);
+                bounceOut.animate("zoom", originalZoom);
+                _juggler.add(bounceOut);
+            }
+            _juggler.add(bounceIn);
         }
     }
 
@@ -155,6 +173,15 @@ class Camera2D extends EventDispatcher {
             "y": _target.y + -(_y + value) * _zoom
         };
         _juggler.tween(_target, duration, properties);
+        _juggler.delayCall(_dispatchChangeEvent, duration);
+    }
+
+    private function easeZ(value:Float, duration:Float = 0.5):Void {
+        var properties:Dynamic = {
+            "zoom": zoom + value
+        };
+
+        _juggler.tween(this, duration, properties);
         _juggler.delayCall(_dispatchChangeEvent, duration);
     }
 

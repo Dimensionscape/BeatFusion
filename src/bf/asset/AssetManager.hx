@@ -26,7 +26,7 @@ class AssetManager {
 		for (sheet in _assetManifest.spritesheets) {
 			var dat:String = Assets.getText(sheet.data);
 			var bmd:BitmapData = Assets.getBitmapData(sheet.image);
-			var tx:Texture = Texture.fromBitmapData(bmd, false);
+			var tx:Texture = Texture.fromBitmapData(bmd, true);
 			var atlas:TextureAtlas = new TextureAtlas(tx, dat);
 
 			_spritesheetMap.set(sheet.id, atlas);

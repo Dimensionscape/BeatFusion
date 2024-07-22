@@ -79,11 +79,27 @@ class Main extends Sprite
 
 		KeyboardManager.setKeyDownCallback(DOWN, ()->{
 			noteView.downNote.isActive = true;
-			Engine.engine.camera.applyEffect(EaseX(130, 0.5));
+			Engine.engine.camera.applyEffect(EaseY(130, 0.5));
 		});
 
 		KeyboardManager.setKeyUpCallback(DOWN, ()->{
 			noteView.downNote.isActive = false;
+		});
+
+		KeyboardManager.setKeyDownCallback(S, ()->{
+			Engine.engine.camera.applyEffect(Shake(5.0, 2));
+		});
+
+		KeyboardManager.setKeyDownCallback(NUMPAD_ADD, ()->{
+			Engine.engine.camera.applyEffect(EaseZ(0.1, 0.5));
+		});
+
+		KeyboardManager.setKeyDownCallback(NUMPAD_SUBTRACT, ()->{
+			Engine.engine.camera.applyEffect(EaseZ(-0.1, 0.5));
+		});
+
+		KeyboardManager.setKeyDownCallback(B, ()->{
+			Engine.engine.camera.applyEffect(Bounce(0.05, .25));
 		});
 
 	}
