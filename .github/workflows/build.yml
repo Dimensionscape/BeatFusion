@@ -5,57 +5,65 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
   workflow_dispatch:
 
 jobs:
-  Build-Project:
+  setup-environment:
     runs-on: windows-latest
     steps:
-    
       - uses: actions/checkout@v4
         with:
           submodules: true
-          
       - uses: krdlab/setup-haxe@v1
         with:
           haxe-version: 4.3.4
-      - run: |
-          haxe -version
-          
+      - run: haxe -version
       - name: Set HAXEPATH
-        run: |
-          echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
-          
-          
+        run: echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
       - name: Install External Dependencies
         run: |
           haxelib install hxcpp --quiet
           haxelib install format --quiet
           haxelib install lime 7.9.0 --quiet  
-          haxelib install emitter --quiet  
-          
-      - name: Build Windows(32-Bit)
-        run: |
-         haxelib run lime build $GITHUB_WORKSPACE Windows   
-          
-      - name: Build HTML5
-        run: |
-          haxelib run lime build $GITHUB_WORKSPACE html5    
-            
+          haxelib install emitter --quiet
+
+  build-windows:
+    runs-on: windows-latest
+    needs: setup-environment
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Build Windows (32-Bit)
+        run: haxelib run lime build $GITHUB_WORKSPACE windows
       - uses: actions/upload-artifact@v3
         with:
           name: Windows (32-Bit) Build
-          path: |
-            D:/a/BeatFusion/BeatFusion/bin/windows/bin
-            
+          path: D:/a/BeatFusion/BeatFusion/bin/windows/bin
+
+  build-html5:
+    runs-on: windows-latest
+    needs: setup-environment
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Build HTML5
+        run: haxelib run lime build $GITHUB_WORKSPACE html5
       - uses: actions/upload-artifact@v3
         with:
           name: HTML5 Build
-          path: |
-            D:/a/BeatFusion/BeatFusion/bin/html5/bin   
-            
-      - name: Deploy
+          path: D:/a/BeatFusion/BeatFusion/bin/html5/bin
+
+  deploy:
+    runs-on: windows-latest
+    needs: build-html5
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: HTML5 Build
+          path: D:/a/BeatFusion/BeatFusion/bin/html5/bin
+      - name: Deploy to Surge
         uses: dswistowski/surge-sh-action@v1
         with:
           domain: dimensionscape.bfengine.surge.sh
