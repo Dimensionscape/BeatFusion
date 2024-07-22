@@ -55,7 +55,7 @@ jobs:
           name: HTML5 Build
           path: D:/a/BeatFusion/BeatFusion/bin/html5/bin
 
-  deploy:
+  deploy-to-surge:
     runs-on: windows-latest
     needs: build-html5
     steps:
