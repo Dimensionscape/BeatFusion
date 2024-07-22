@@ -26,7 +26,7 @@ class Main extends Sprite
 		var noteView:NoteView = new NoteView();
 		noteView.x = 580;
 		noteView.y = 16;
-		addChild(noteView);
+		Engine.engine.camera.overlay.addChild(noteView);
 		
 		var gfRight:BaseDanceRight = new BaseDanceRight();
 		var gfLeft:BaseDanceLeft = new BaseDanceLeft();

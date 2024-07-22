@@ -104,6 +104,7 @@ import openfl.Lib;
 		_starling.start();
 		_starling.showStats = true;
 		_starling.antiAliasing = 16;
+
 	}
 
 	private function _onContextCreated(e:Event):Void {
@@ -111,14 +112,14 @@ import openfl.Lib;
 		AssetManager.init();
 		SoundManager.init();
 		KeyboardManager.start(_starling.nativeStage);
-
+		_camera = new Camera2D();
 		//_starling.addEventListener(EnterFrameEvent.ENTER_FRAME, _onEnterFrameEvent);
 	}
 
 	private function _onRootCreated(e:Event):Void{
 		var root:DisplayObjectContainer = cast _starling.root;
+		_camera.attach(root);
 		
-		_camera = new Camera2D(root);
 
 	}
 

@@ -1,5 +1,6 @@
 package bf.core;
 
+import starling.display.Sprite;
 import starling.animation.Tween;
 import starling.animation.Juggler;
 import starling.display.DisplayObjectContainer;
@@ -7,11 +8,15 @@ import starling.events.EventDispatcher;
 import starling.events.Event;
 
 class Camera2D extends EventDispatcher {
+
+    public var overlay(get, null):Sprite;
+
 	public var x(get, set):Float;
 	public var y(get, set):Float;
 	public var zoom(get, set):Float;
 	public var rotation(get, set):Float;
 
+    private var _overlay:Sprite;
 	private var _x:Float;
 	private var _y:Float;
 	private var _zoom:Float;
@@ -25,10 +30,10 @@ class Camera2D extends EventDispatcher {
 
 	private var _juggler:Juggler;
 
-	private function new(target:DisplayObjectContainer) {
+	private function new() {
 		super();
 
-		this._target = target;
+		
 		this._x = 0;
 		this._y = 0;
 		this._zoom = 1;
@@ -39,45 +44,55 @@ class Camera2D extends EventDispatcher {
 		this._maxY = Math.POSITIVE_INFINITY;
 
 		_juggler = Engine.engine.starling.juggler;
+        _overlay = new Sprite();
+        Engine.engine.starling.stage.addChildAt(_overlay, 0);
 	}
 
-	public inline function get_x():Float {
+    public function attach(target:DisplayObjectContainer) {
+        this._target = target;
+        
+    }
+
+    private inline function get_overlay():Sprite{
+        return _overlay;
+    }
+	private inline function get_x():Float {
 		return _x;
 	}
 
-	public inline function set_x(value:Float):Float {
+	private inline function set_x(value:Float):Float {
 		_x = Math.max(_minX, Math.min(_maxX, value));
 		applyTranslationX();
 		_dispatchChangeEvent();
 		return _x;
 	}
 
-	public inline function get_y():Float {
+	private inline function get_y():Float {
 		return _y;
 	}
 
-	public inline function set_y(value:Float):Float {
+	private inline function set_y(value:Float):Float {
 		_y = Math.max(_minY, Math.min(_maxY, value));
 		applyTranslationY();
 		_dispatchChangeEvent();
 		return _y;
 	}
 
-	public inline function get_zoom():Float {
+	private inline function get_zoom():Float {
 		return _zoom;
 	}
 
-	public inline function set_zoom(value:Float):Float {
+	private inline function set_zoom(value:Float):Float {
 		_zoom = value;
 		applyTransformations();
 		return _zoom;
 	}
 
-	public inline function get_rotation():Float {
+	private inline function get_rotation():Float {
 		return _rotation;
 	}
 
-	public inline function set_rotation(value:Float):Float {
+	private inline function set_rotation(value:Float):Float {
 		_rotation = value;
 		applyTransformations();
 		return _rotation;
