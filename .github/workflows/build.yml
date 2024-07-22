@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup-environment:
+  build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,22 +18,12 @@ jobs:
         with:
           haxe-version: 4.3.4
       - run: haxe -version
-      - name: Set HAXEPATH
-        run: echo "HAXEPATH=$HAXE_STD_PATH/.." >> $GITHUB_ENV
       - name: Install External Dependencies
         run: |
           haxelib install hxcpp --quiet
           haxelib install format --quiet
-          haxelib install lime 7.9.0 --quiet  
+          haxelib install lime 7.9.0 --quiet
           haxelib install emitter --quiet
-
-  build-windows:
-    runs-on: windows-latest
-    needs: setup-environment
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
       - name: Build Windows (32-Bit)
         run: haxelib run lime build $GITHUB_WORKSPACE windows
       - uses: actions/upload-artifact@v3
@@ -43,11 +33,20 @@ jobs:
 
   build-html5:
     runs-on: windows-latest
-    needs: setup-environment
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
+      - uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.3.4
+      - run: haxe -version
+      - name: Install External Dependencies
+        run: |
+          haxelib install hxcpp --quiet
+          haxelib install format --quiet
+          haxelib install lime 7.9.0 --quiet
+          haxelib install emitter --quiet
       - name: Build HTML5
         run: haxelib run lime build $GITHUB_WORKSPACE html5
       - uses: actions/upload-artifact@v3
