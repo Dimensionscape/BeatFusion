@@ -1,5 +1,6 @@
 package;
 
+import openfl.geom.Point;
 import bf.core.Engine;
 import starling.events.Event;
 import game.animations.gf.BaseDanceLeft;
@@ -102,6 +103,8 @@ class Main extends Sprite
 			Engine.engine.camera.applyEffect(Bounce(0.05, .25));
 		});
 
+
+		Engine.engine.camera.focalPoint = new Point(400,200);
 	}
 
 }
