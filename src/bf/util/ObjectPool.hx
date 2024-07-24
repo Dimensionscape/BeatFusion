@@ -40,6 +40,7 @@ class ObjectPool<T>
 	 * Creates a new object pool.
 	 *
 	 * @param objectFactory The function to create new instances of the pooled objects.
+	 * @param resetFunction Optional The function used to reset our object.
 	 * @param length Optional initial size of the pool.
 	 */
 	public function new(objectFactory:Void->T, ?resetFunction:T->Void, ?length:Int)
