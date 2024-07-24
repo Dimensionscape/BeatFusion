@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:823a09870adceb34d474d16507389dbf:09de627632ded817d0e38ddaaf20a707:b80b2ce18a94884e31b38c71f2bf32bc$ -->
-<TextureAtlas imagePath="ui_sheet.png" width="81" height="219">
-    <SubTexture name="note_base" x="2" y="153" rotated="true" width="67" height="64"/>
-    <SubTexture name="note_border" x="2" y="2" width="77" height="79"/>
-    <SubTexture name="note_highlight" x="2" y="83" rotated="true" width="70" height="68"/>
+<!-- $TexturePacker:SmartUpdate:fe3d61e692d13c5b7e1c50dc26cf2b9e:2bf643de8c6ab4512bbefd6652f73121:b80b2ce18a94884e31b38c71f2bf32bc$ -->
+<TextureAtlas imagePath="ui_sheet.png" width="81" height="223">
+    <SubTexture name="note_base" x="2" y="81" rotated="true" width="73" height="71" frameX="-3" frameY="-3" frameWidth="77" frameHeight="79"/>
+    <SubTexture name="note_highlight" x="2" y="152" rotated="true" width="72" height="69" frameX="-4" frameY="-4" frameWidth="77" frameHeight="79"/>
+    <SubTexture name="note_outline" x="2" y="2" width="77" height="79"/>
 </TextureAtlas>

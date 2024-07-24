@@ -94,7 +94,9 @@ class Camera2D extends EventDispatcher {
 
 	private inline function set_x(value:Float):Float {
 		_x = Math.max(_minX, Math.min(_maxX, value));
-		applyTranslationX();
+        if(_target != null){
+            applyTranslationX();
+        }		
 		_dispatchChangeEvent();
 		return _x;
 	}
@@ -105,7 +107,9 @@ class Camera2D extends EventDispatcher {
 
 	private inline function set_y(value:Float):Float {
 		_y = Math.max(_minY, Math.min(_maxY, value));
-		applyTranslationY();
+        if(_target != null){
+		    applyTranslationY();
+        }
 		_dispatchChangeEvent();
 		return _y;
 	}
@@ -237,20 +241,19 @@ class Camera2D extends EventDispatcher {
 	}
 
 	private inline function applyTranslation():Void {
-		applyTranslationX();
-		applyTranslationY();
+        if (_target != null) {
+	       	applyTranslationX();
+		    applyTranslationY();
+        }
 	}
 
-	private inline function applyTranslationX():Void {
-		if (_target != null) {
-			_target.x = -_x * _zoom;
-		}
+	private inline function applyTranslationX():Void {		
+			_target.x = -_x * _zoom;		
 	}
 
 	private inline function applyTranslationY():Void {
-		if (_target != null) {
 			_target.y = -_y * _zoom;
-		}
+	
 	}
 
 	private inline function _dispatchChangeEvent():Void {

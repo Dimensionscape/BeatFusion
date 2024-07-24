@@ -27,8 +27,8 @@ class NoteToggle extends Sprite {
 
         inactiveNote = new Note();
         inactiveNote.highlightColor = 0xFFFFFF;
-        inactiveNote.innerColor = 0x999999;
-        inactiveNote.outerColor = 0x3A3A3A;
+        inactiveNote.innerColor = 0x87A3AD;
+        inactiveNote.outerColor = 0x000000;
         addChild(inactiveNote);
 
         isActive = false;

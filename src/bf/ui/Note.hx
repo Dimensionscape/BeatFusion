@@ -12,11 +12,11 @@ import bf.asset.AssetManager;
 class Note extends MeshBatch
 {
 
-	private var _borderTexture:Texture;
+	private var _outerTexture:Texture;
 	private var _baseTexture:Texture;
 	private var _highlightTexture:Texture;
 
-	private var _borderQuad:Quad;
+	private var _outerQuad:Quad;
 	private var _baseQuad:Quad;
 	private var _highlightQuad:Quad;
 
@@ -25,11 +25,11 @@ class Note extends MeshBatch
 	public var highlightColor(get, set):UInt;
 
 	private function get_outerColor():UInt{
-		return _borderQuad.color;
+		return _outerQuad.color;
 	}
 
 	private function set_outerColor(value:UInt):UInt{
-		_borderQuad.color = value;
+		_outerQuad.color = value;
 		validate();
 		return value;
 	}
@@ -63,12 +63,12 @@ class Note extends MeshBatch
 		var spritesheet:TextureAtlas = AssetManager.getSpritesheet(UI);
 
 		_baseTexture = spritesheet.getTexture("note_base");
-		_borderTexture = spritesheet.getTexture("note_border");
+		_outerTexture = spritesheet.getTexture("note_outline");
 		_highlightTexture = spritesheet.getTexture("note_highlight");
 
 		_baseQuad = Quad.fromTexture(_baseTexture);
 
-		_borderQuad = Quad.fromTexture(_borderTexture);
+		_outerQuad = Quad.fromTexture(_outerTexture);
 
 		_highlightQuad = Quad.fromTexture(_highlightTexture);
 
@@ -79,7 +79,7 @@ class Note extends MeshBatch
 
 	public function validate():Void{
 		addMesh(_baseQuad);
-		addMesh(_borderQuad);
+		addMesh(_outerQuad);
 		addMesh(_highlightQuad);
 	}
 	
