@@ -5,6 +5,9 @@ import bf.ds.Stack;
 /**
  * ...
  * @author Christopher Speciale
+ * Dimensonscape LLC
+ * Copyright 2024.
+ * All rights reserved.
  */
 
 /**

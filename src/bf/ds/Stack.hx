@@ -2,8 +2,12 @@ package bf.ds;
 
 /**
  * ...
- * @author Chris__topher Speciale
+ * @author Christopher Speciale
+ * Dimensonscape LLC
+ * Copyright 2024.
+ * All rights reserved.
  */
+
 /**
  * A generic stack implementation.
  *
