@@ -13,7 +13,7 @@ import bf.ds.Stack;
 *
 * @param T The type of objects to be pooled.
 */
-@:access(crossbyte.utils.ObjectBucket)
+@:access(bf.util.ObjectBucket)
 @:generic
 class ObjectPool<T>
 {

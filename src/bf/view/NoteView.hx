@@ -1,4 +1,7 @@
 package bf.view;
+import bf.ui.Note;
+import bf.util.ObjectPool;
+import emitter.signals.Emitter;
 import starling.display.Image;
 import bf.ui.NoteToggle;
 import starling.display.Sprite;
@@ -15,7 +18,8 @@ class NoteView extends Sprite
 	public var leftNote:NoteToggle;
 	public var downNote:NoteToggle;
 	public var upNote:NoteToggle;
-	public var rightNote:NoteToggle;	
+	public var rightNote:NoteToggle;
+	public var spawner:NoteSpawner;	
 	
 	public function new() 
 	{
@@ -56,6 +60,24 @@ class NoteView extends Sprite
 		rightNote.rotation = 3.14159;		
 		addChild(rightNote);
 		
+		spawner = new NoteSpawner();
+
 	}
-	
+}
+
+class NoteSpawner extends Emitter {
+
+	private static var notePool:ObjectPool<Note>;
+
+	private static function _noteFactory():Note{
+		var note:Note = new Note();
+		return note;
+	}
+
+	public function new(){
+		super();
+		if(notePool == null){
+			notePool = new ObjectPool(_noteFactory, null, 100);
+		}
+	}
 }
