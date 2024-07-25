@@ -6,7 +6,7 @@ import bf.ds.Stack;
  * ...
  * @author Christopher Speciale
  * Dimensonscape LLC
- * Copyright 2024.
+ * Copyright 2024
  * All rights reserved.
  */
 
@@ -88,19 +88,20 @@ class ObjectPool<T>
 	 */
 	public inline function acquire():T
 	{
+		var obj:T = null;
 		if (__available.length > 0)
 		{
-			return __getObject(__available.pop());
+			obj = __getObject(__available.pop());
 		}
 		else {
 			// Handle case where no objects are available
 			// Example: Expand pool
-			var newObj:T = objectFactory();
-			__newElement(newObj);
+			obj = objectFactory();
+			__newElement(obj);
 			__free.push(__pool.length - 1);
-
-			return newObj;
 		}
+
+		return obj;
 	}
 
 	private function __getObject(index:Int):T
