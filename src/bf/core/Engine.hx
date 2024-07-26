@@ -103,7 +103,7 @@ import openfl.Lib;
 		_starling.addEventListener(Event.ROOT_CREATED, _onRootCreated);
 		_starling.start();
 		_starling.showStats = true;
-		_starling.antiAliasing = 16;
+		_starling.antiAliasing = 0;
 
 	}
 

@@ -13,7 +13,7 @@ class BaseDanceRight extends Animation {
 		for (i in indicies) {
 			animTextures.push(textures[i]);
 		}
-
+        
 		super(animTextures, 24);
 		stop();
 	}

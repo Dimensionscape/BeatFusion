@@ -16,5 +16,7 @@ class Animation extends MovieClip {
 
 	public function new(textures:Array<Texture>, fps:Int) {
 		super(textures, fps);
+        touchable = false;
+        textureSmoothing = "none";
 	}
 }

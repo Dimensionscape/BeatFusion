@@ -1,86 +1,56 @@
 package bf.ui;
-import starling.textures.TextureAtlas;
-import starling.display.Quad;
-import starling.textures.Texture;
-import starling.display.MeshBatch;
-import bf.asset.AssetManager;
 
-/**
- * ...
- * @author Christopher Speciale
- */
-class Note extends MeshBatch
-{
+import starling.display.Sprite;
 
-	private var _outerTexture:Texture;
-	private var _baseTexture:Texture;
-	private var _highlightTexture:Texture;
+class Note extends Sprite {
+	public var state:NoteEnum;
+	public var id(get, null):UInt;
 
-	private var _outerQuad:Quad;
-	private var _baseQuad:Quad;
-	private var _highlightQuad:Quad;
+	private var _id:Int;
+	private var _mesh:NoteMesh;
 
-	public var outerColor(get, set):UInt;
-	public var innerColor(get, set):UInt;
-	public var highlightColor(get, set):UInt;
-
-	private function get_outerColor():UInt{
-		return _outerQuad.color;
-	}
-
-	private function set_outerColor(value:UInt):UInt{
-		_outerQuad.color = value;
-		validate();
-		return value;
-	}
-
-	private function get_innerColor():UInt{
-		return _baseQuad.color;
-	}
-
-	private function set_innerColor(value:UInt):UInt{
-		_baseQuad.color = value;
-		validate();
-		return value;
-	}
-
-	private function get_highlightColor():UInt{
-		return _highlightQuad.color;
-	}
-
-	private function set_highlightColor(value:UInt):UInt{
-		_highlightQuad.color = value;
-		validate();
-		return value;
-	}
-	
-	//TURNS OUT THE CHEAPEST METHOD OF COLORING OUR NOTES WAS TO JUST SPLIT THEM UP INTO PARTS
-	public function new() 
-	{
+	public function new(?state:NoteEnum) {
 		super();
-		batchable = true;
 
-		var spritesheet:TextureAtlas = AssetManager.getSpritesheet(UI);
+        this.touchable = false;
+		_mesh = new NoteMesh();
+        _mesh.touchable = false;
+        _mesh.textureSmoothing = "none";
+		
+		addChild(_mesh);
 
-		_baseTexture = spritesheet.getTexture("note_base");
-		_outerTexture = spritesheet.getTexture("note_outline");
-		_highlightTexture = spritesheet.getTexture("note_highlight");
-
-		_baseQuad = Quad.fromTexture(_baseTexture);
-
-		_outerQuad = Quad.fromTexture(_outerTexture);
-
-		_highlightQuad = Quad.fromTexture(_highlightTexture);
-
-		validate();
-
-		this.textureSmoothing = "none";
+		if (state != null) {
+			changeState(state);
+		}
 	}
 
-	public function validate():Void{
-		addMesh(_baseQuad);
-		addMesh(_outerQuad);
-		addMesh(_highlightQuad);
+	public function changeState(state:NoteEnum):Void {
+		switch (state) {
+			case LEFT:
+				_mesh.innerColor = 0xC24B99;
+				_mesh.outerColor = 0x3C1F56;
+			case DOWN:
+				_mesh.innerColor = 0x00FFFF;
+				_mesh.outerColor = 0x1542B7;
+			case UP:
+				_mesh.innerColor = 0x12FA05;
+				_mesh.outerColor = 0x0A4447;
+			case RIGHT:
+				_mesh.innerColor = 0xF9393F;
+				_mesh.outerColor = 0x651038;
+		}
+        _mesh.setDirection(state);
+		this.state = state;
 	}
-	
+
+	private inline function get_id():UInt{
+		return _id;
+	}
+}
+
+enum abstract NoteEnum(String) from String to String{
+	var LEFT:String = "left";
+	var DOWN:String = "down";
+	var UP:String = "up";
+	var RIGHT:String = "right";
 }

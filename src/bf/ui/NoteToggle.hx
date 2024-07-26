@@ -1,39 +1,37 @@
 package bf.ui;
 
+import bf.ui.Note.NoteEnum;
 import starling.display.Sprite;
 
-class NoteToggle extends Sprite {
+class NoteToggle extends Note {
+	// TODO: Getters and setters for validation
+	private var _inactiveMesh:NoteMesh;
 
-    //TODO: Getters and setters for validation
-    public var activeNote:Note;
-    public var inactiveNote:Note;
+	public var isActive(get, set):Bool;
 
-    public var isActive(get, set):Bool;
+	private inline function get_isActive():Bool {
+		return _mesh.visible;
+	}
 
-    private inline function get_isActive():Bool{
-        return !inactiveNote.visible;
-    }
+	private inline function set_isActive(value:Bool):Bool {
+		_mesh.visible = value;
+		return value;
+	}
 
-    private inline function set_isActive(value:Bool):Bool{
-        inactiveNote.visible = !value;
-        return value;
-    }
+	public function new(?state:NoteEnum) {
+		_inactiveMesh = new NoteMesh();
+		super(state);
 
-    public function new(){
-        super();
-        
-        activeNote = new Note();
-        addChild(activeNote);
+		_inactiveMesh.highlightColor = 0xFFFFFF;
+		_inactiveMesh.innerColor = 0x87A3AD;
+		_inactiveMesh.outerColor = 0x000000;
+		addChildAt(_inactiveMesh, 0);
 
-        inactiveNote = new Note();
-        inactiveNote.highlightColor = 0xFFFFFF;
-        inactiveNote.innerColor = 0x87A3AD;
-        inactiveNote.outerColor = 0x000000;
-        addChild(inactiveNote);
+		isActive = false;
+	}
 
-        isActive = false;
-    }
-
-
-
+	override public function changeState(state:NoteEnum):Void {
+		super.changeState(state);
+		_inactiveMesh.setDirection(state);
+	}
 }

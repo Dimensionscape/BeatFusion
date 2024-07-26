@@ -12,7 +12,7 @@
 	<window width="960" height="540" unless="html5"/>
 	<window width="0" height="0" if="html5"/>
 
-	<window orientation="landscape" vsync="false" antialiasing="16" if="cpp" />
+	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
