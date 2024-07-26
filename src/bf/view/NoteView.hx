@@ -1,5 +1,7 @@
 package bf.view;
 
+import bf.ui.HitNote;
+import bf.ui.NoteTail;
 import haxe.ds.IntMap;
 import starling.events.EnterFrameEvent;
 import bf.ui.Note;
@@ -51,11 +53,11 @@ class NoteView extends Sprite {
 		addEventListener(EnterFrameEvent.ENTER_FRAME, _onFrameUpdate);
 	}
 
-	var activeNotes:IntMap<Note> = new IntMap();
+	var activeNotes:IntMap<HitNote> = new IntMap();
 //Were only testing here. This is a Note Simlation!
 	private function _onFrameUpdate(e:EnterFrameEvent):Void {
 		var n:Int = Std.random(7);
-		var note:Note = null;
+		var note:HitNote = null;
 
 		switch (n) {
 			case 0:
@@ -99,38 +101,39 @@ class NoteView extends Sprite {
 
 @:access(bf.ui.Note)
 class NoteSpawner extends Emitter {
-	private static var leftNotePool:ObjectPool<Note>;
-	private static var upNotePool:ObjectPool<Note>;
-	private static var rightNotePool:ObjectPool<Note>;
-	private static var downNotePool:ObjectPool<Note>;
+	private static var leftNotePool:ObjectPool<HitNote>;
+	private static var upNotePool:ObjectPool<HitNote>;
+	private static var rightNotePool:ObjectPool<HitNote>;
+	private static var downNotePool:ObjectPool<HitNote>;
+	private static var noteTailPool:ObjectPool<NoteTail>;
 
 	private static var _hasPool:Bool = false;
 
 	private static var _idSpace:Int = 0;
 
-	private static function _leftNoteFactory():Note {
-		var note:Note = new Note(LEFT);
+	private static function _leftNoteFactory():HitNote {
+		var note:HitNote = new HitNote(LEFT);
 		note._id = _idSpace++;
 
 		return note;
 	}
 
-	private static function _upNoteFactory():Note {
-		var note:Note = new Note(UP);
+	private static function _upNoteFactory():HitNote {
+		var note:HitNote = new HitNote(UP);
 		note._id = _idSpace++;
 
 		return note;
 	}
 
-	private static function _rightNoteFactory():Note {
-		var note:Note = new Note(RIGHT);
+	private static function _rightNoteFactory():HitNote {
+		var note:HitNote = new HitNote(RIGHT);
 		note._id = _idSpace++;
 
 		return note;
 	}
 
-	private static function _downNoteFactory():Note {
-		var note:Note = new Note(DOWN);
+	private static function _downNoteFactory():HitNote {
+		var note:HitNote = new HitNote(DOWN);
 		note._id = _idSpace++;
 
 		return note;
@@ -147,7 +150,7 @@ class NoteSpawner extends Emitter {
 		}
 	}
 
-	public function recycle(note:Note):Void{
+	public function recycle(note:HitNote):Void{
 		switch (note.state) {
 			case LEFT:
 				leftNotePool.release(note);
@@ -160,8 +163,8 @@ class NoteSpawner extends Emitter {
 		}
 	}
 
-	public function get(state:NoteEnum):Note {
-		var note:Note = null;
+	public function get(state:NoteEnum):HitNote {
+		var note:HitNote = null;
 
 		switch (state) {
 			case LEFT:
