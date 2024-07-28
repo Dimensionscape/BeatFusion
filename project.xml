@@ -8,7 +8,7 @@
 	<!-- output -->
 	<app main="Main" file="BeatFusion" path="bin" />
 	
-	<window background="#000000" fps="60" />
+	<window background="#000000" fps="1000" />
 	<window width="960" height="540" unless="html5"/>
 	<window width="0" height="0" if="html5"/>
 
