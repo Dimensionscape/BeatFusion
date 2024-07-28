@@ -21,7 +21,7 @@ class Visualizer extends Sprite {
     }
 
     private function loadAudio():Void {
-        Assets.loadAudioBuffer("audio/audio.ogg").onComplete(function(buffer:AudioBuffer) {
+        Assets.loadAudioBuffer("audio/audio2.ogg").onComplete(function(buffer:AudioBuffer) {
             sound = new AudioSource(buffer);
             fft = new FFT(1024); // FFT size of 1024
             createUI();
@@ -38,8 +38,8 @@ class Visualizer extends Sprite {
             var magnitude:Array<Float> = fft.getMagnitude();
 
             for (i in 0...256) {
-                var value = magnitude[i] *2;// * 100; // Scale the FFT output
-                value = Math.min(190, value);
+                var value = magnitude[i] * 2; // Adjust the scale factor as needed
+                value = Math.min(190, value); // Cap the value to prevent overflow
                 bars[i].height = value;
                 bars[i].y = 190 - value; // Adjust y-position based on the bar height
             }
@@ -71,21 +71,18 @@ class Visualizer extends Sprite {
         var buffer:AudioBuffer = sound.buffer;
         var sampleData:UInt8Array = buffer.data;
         var numChannels:Int = buffer.channels;
-        var totalSamples:Int = Std.int(buffer.data.length / (numChannels * 2)); // Assuming 16-bit samples
-    
-        // Determine the number of samples per channel (assuming stereo)
-        var samplesPerChannel:Int = Std.int(totalSamples / numChannels);
-    
-        // Define the number of samples you want to visualize, e.g., 1024
-        var sampleWindow:Int = 1024;
-    
+        var totalSamples:Int = Std.int(sampleData.length / (numChannels * 2)); // Assuming 16-bit samples
+
         // Calculate the current playback sample position
-        var currentSamplePosition:Int = Std.int((sound.currentTime / sound.length) * samplesPerChannel);
-    
-        // Ensure we don't exceed the buffer size
+        var currentSamplePosition:Int = Std.int((sound.currentTime / sound.length) * totalSamples);
+
+        // Define the number of samples you want to visualize, e.g., 1024
+        var sampleWindow:Int = Std.int(Math.min(1024, totalSamples - currentSamplePosition));
+        sampleWindow = Std.int(Math.max(0, sampleWindow));
+
         var startSample:Int = Std.int(Math.max(0, currentSamplePosition - sampleWindow));
-        var endSample:Int = Std.int(Math.min(samplesPerChannel, currentSamplePosition + sampleWindow));
-    
+        var endSample:Int = Std.int(Math.min(totalSamples, currentSamplePosition + sampleWindow));
+
         for (i in startSample...endSample) {
             var sample:Float = 0;
             for (c in 0...numChannels) {
@@ -98,8 +95,7 @@ class Visualizer extends Sprite {
             }
             samples.push(sample / numChannels);
         }
-    
+
         return samples;
     }
-    
 }
