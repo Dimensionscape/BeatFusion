@@ -1,5 +1,6 @@
 package bf.graphics;
 
+import bf.core.Settings;
 import bf.core.Engine;
 import starling.animation.Juggler;
 import starling.textures.Texture;
@@ -17,6 +18,6 @@ class Animation extends MovieClip {
 	public function new(textures:Array<Texture>, fps:Int) {
 		super(textures, fps);
         touchable = false;
-        textureSmoothing = "none";
+        textureSmoothing = Settings.textureSmoothing;
 	}
 }

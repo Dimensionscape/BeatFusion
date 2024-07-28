@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:43d5f06eb4af90bdfc0320b6898f80ed:9ffef4b524b9cd9b0c3f4ff5a806ee04:b80b2ce18a94884e31b38c71f2bf32bc$ -->
+<!-- $TexturePacker:SmartUpdate:928ce12a289693399c1259b9e9449960:0c9a12a5d7812dc19d8925a53e3789c4:b80b2ce18a94884e31b38c71f2bf32bc$ -->
 <TextureAtlas imagePath="ui_sheet.png" width="83" height="248">
     <SubTexture name="note_base" x="2" y="98" rotated="true" width="73" height="71" frameX="-3" frameY="-3" frameWidth="77" frameHeight="79"/>
     <SubTexture name="note_highlight" x="2" y="29" rotated="true" width="72" height="69" frameX="-4" frameY="-4" frameWidth="77" frameHeight="79"/>

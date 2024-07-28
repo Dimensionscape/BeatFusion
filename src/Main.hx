@@ -1,5 +1,9 @@
 package;
 
+import starling.display.Quad;
+import openfl.geom.Rectangle;
+import starling.display.Image;
+import bf.ui.NoteTail;
 import openfl.geom.Point;
 import bf.core.Engine;
 import starling.events.Event;
@@ -105,6 +109,36 @@ class Main extends Sprite
 
 
 		Engine.engine.camera.focalPoint = new Point(400,200);
+
+
+		var testTail:NoteTail = new NoteTail(LEFT);
+
+		testTail.x = -100;
+		testTail.y = 16;
+		testTail.height = 300;
+		noteView.addChild(testTail);
+
+		var testTail:NoteTail = new NoteTail(DOWN);
+
+		testTail.x = -200;
+		testTail.y = 16;
+		testTail.height = 300;
+		noteView.addChild(testTail);
+
+		var testTail:NoteTail = new NoteTail(UP);
+
+		testTail.x = -300;
+		testTail.y = 16;
+		testTail.height = 300;
+		noteView.addChild(testTail);
+
+		var testTail:NoteTail = new NoteTail(RIGHT);
+
+		testTail.x = -400;
+		testTail.y = 16;
+		testTail.height = 300;
+		noteView.addChild(testTail);
+		
 	}
 
 }

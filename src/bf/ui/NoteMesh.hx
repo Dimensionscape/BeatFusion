@@ -4,6 +4,7 @@ import starling.display.Quad;
 import starling.textures.Texture;
 import starling.display.MeshBatch;
 import bf.asset.AssetManager;
+import bf.core.Settings;
 
 /**
  * ...
@@ -74,13 +75,13 @@ class NoteMesh extends MeshBatch
 
 		validate();
 
-		this.textureSmoothing = "none";
+		this.textureSmoothing = Settings.textureSmoothing;
 
 		alignPivot();
 
 		this.y += pivotY;
 		this.x += pivotX;
-	}
+	} 
 
 	//TODO: Enum here
 	public function setDirection(direction:String):Void{

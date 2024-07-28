@@ -16,6 +16,8 @@ class NoteTail extends NoteTailMesh {
 		if (state != null) {
 			changeState(state);
 		}
+
+        
 	}
 
 	public function changeState(state:NoteEnum):Void {

@@ -1,6 +1,7 @@
 package bf.ui;
 
 import starling.display.Sprite;
+import bf.core.Settings;
 
 class Note extends Sprite {
 	public var state:NoteEnum;
@@ -15,7 +16,7 @@ class Note extends Sprite {
         this.touchable = false;
 		_mesh = new NoteMesh();
         _mesh.touchable = false;
-        _mesh.textureSmoothing = "none";
+        _mesh.textureSmoothing = Settings.textureSmoothing;
 		
 		addChild(_mesh);
 
