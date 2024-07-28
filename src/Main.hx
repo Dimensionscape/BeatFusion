@@ -1,5 +1,6 @@
 package;
 
+import bf.util.Visualizer;
 import starling.display.Quad;
 import openfl.geom.Rectangle;
 import starling.display.Image;
@@ -138,7 +139,15 @@ class Main extends Sprite
 		testTail.y = 16;
 		testTail.height = 300;
 		noteView.addChild(testTail);
+
+		visualizer = new Visualizer();
+		visualizer.y = 356;
+		visualizer.x = - 500;
+		visualizer.scale = .5;
+		noteView.addChild(visualizer);
 		
 	}
+
+	var visualizer:Visualizer;
 
 }
