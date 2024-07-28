@@ -141,9 +141,9 @@ class Main extends Sprite
 		noteView.addChild(testTail);
 
 		visualizer = new Visualizer();
-		visualizer.y = 356;
-		visualizer.x = - 500;
-		visualizer.scale = .5;
+		visualizer.y = 300;
+		visualizer.x = - 576;
+		visualizer.scale = .75;
 		noteView.addChild(visualizer);
 		
 	}
