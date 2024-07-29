@@ -1,3 +1,4 @@
+[![CI](https://github.com/Dimensionscape/BeatFusion/actions/workflows/build.yml/badge.svg)](https://github.com/Dimensionscape/BeatFusion/actions/workflows/build.yml)
 # BeatFusion
 FNF(Friday Night Funkin) Engine
 
