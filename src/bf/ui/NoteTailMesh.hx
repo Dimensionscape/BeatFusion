@@ -89,9 +89,9 @@ class NoteTailMesh extends Sprite
 
 	public function set3Slice(y:Float, height:Float):Void{
 	
-		//_baseImage.__set3Slice(y, height);
-		//_outerImage.__set3Slice(y, height);
-		//_highlightImage.__set3Slice(y, height);
+		_baseImage.__set3Slice(y, height);
+		_outerImage.__set3Slice(y, height);
+		_highlightImage.__set3Slice(y, height);
 
 	}
 
