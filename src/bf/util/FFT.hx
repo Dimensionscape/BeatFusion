@@ -11,7 +11,7 @@ class FFT {
 	private var _waveTablei:Array<Float> = [];
 
 	public function new(len:Int) {
-        _bitrvTemp.resize(256);
+		_bitrvTemp.resize(256);
 		_initialize(len >> 1);
 	}
 
@@ -20,7 +20,7 @@ class FFT {
 	}
 
 	public function cdft(isgn:Int, src:Array<Float>):Void {
-		setData(src); 
+		setData(src);
 		if (isgn >= 0)
 			calcFFT();
 		else
@@ -35,7 +35,7 @@ class FFT {
 		else
 			calcRealIFFT();
 		getData(src);
-	}       
+	}
 
 	public function ddct(isgn:Int, src:Array<Float>):Void {
 		setData(src);
@@ -97,10 +97,10 @@ class FFT {
 	}
 
 	public function getData(dst:Array<Float> = null):Array<Float> {
-		if (dst == null){
+		if (dst == null) {
 			dst = new Array();
-            dst.resize(_length << 1);
-        }
+			dst.resize(_length << 1);
+		}
 
 		var i:Int = 0;
 		var i2:Int = 0;
@@ -120,10 +120,10 @@ class FFT {
 		var x:Float;
 		var y:Float;
 
-		if (dst == null){
+		if (dst == null) {
 			dst = new Array();
-            dst.resize(_length);
-        }
+			dst.resize(_length);
+		}
 
 		while (i < _length) {
 			x = re[i];
@@ -139,10 +139,10 @@ class FFT {
 		var x:Float;
 		var y:Float;
 
-		if (dst == null){
+		if (dst == null) {
 			dst = new Array();
-            dst.resize(_length);
-        }
+			dst.resize(_length);
+		}
 
 		while (i < _length) {
 			x = re[i];
@@ -154,10 +154,10 @@ class FFT {
 	}
 
 	public function getPhase(dst:Array<Float> = null):Array<Float> {
-		if (dst == null){
-            dst = new Array();
-            dst.resize(_length);
-        }
+		if (dst == null) {
+			dst = new Array();
+			dst.resize(_length);
+		}
 		for (i in 0..._length) {
 			dst[i] = Math.atan2(im[i], re[i]);
 		}
@@ -256,9 +256,9 @@ class FFT {
 		var tableLength:Int = len >> 2;
 
 		_waveTabler = new Array();
-        _waveTabler.resize(tableLength);
+		_waveTabler.resize(tableLength);
 		_waveTablei = new Array();
-        _waveTablei.resize(tableLength);
+		_waveTablei.resize(tableLength);
 		var i:Int;
 		var imax:Int = len >> 3;
 		var dt:Float = 6.283185307179586 / len; // 2 * Math.PI
@@ -280,15 +280,15 @@ class FFT {
 
 		imax = len << 1;
 		_cosTable = new Array();
-        _cosTable.resize(imax);
+		_cosTable.resize(imax);
 		dt = 1.5707963267948965 / imax; // Math.PI / 2
 		for (i in 0...imax)
 			_cosTable[i] = Math.cos(i * dt) * 0.5;
 
 		re = new Array();
-        re.resize(len);
+		re.resize(len);
 		im = new Array();
-        im.resize(len);
+		im.resize(len);
 		_length = len;
 	}
 
@@ -703,143 +703,141 @@ class FFT {
 	}
 
 	private function _cftmdl(l:Int):Void {
-        var j0:Int, j1:Int, j2:Int, j3:Int, k:Int, k1:Int, k2:Int, m:Int, m2:Int;
-        var wk1r:Float, wk2r:Float, wk3r:Float, x0r:Float, x1r:Float, x2r:Float, x3r:Float;
-        var wk1i:Float, wk2i:Float, wk3i:Float, x0i:Float, x1i:Float, x2i:Float, x3i:Float;
-    
-        m = l << 2;
-    
-        for (j0 in 0...l) {
-            j1 = j0 + l;
-            j2 = j1 + l;
-            j3 = j2 + l;
-            x0r = re[j0] + re[j1];
-            x0i = im[j0] + im[j1];
-            x1r = re[j0] - re[j1];
-            x1i = im[j0] - im[j1];
-            x2r = re[j2] + re[j3];
-            x2i = im[j2] + im[j3];
-            x3r = re[j2] - re[j3];
-            x3i = im[j2] - im[j3];
-            re[j0] = x0r + x2r;
-            im[j0] = x0i + x2i;
-            re[j2] = x0r - x2r;
-            im[j2] = x0i - x2i;
-            re[j1] = x1r - x3i;
-            im[j1] = x1i + x3r;
-            re[j3] = x1r + x3i;
-            im[j3] = x1i - x3r;
-        }
-    
-        wk1r = _waveTabler[1];
-    
-        for (j0 in m...l + m) {
-            j1 = j0 + l;
-            j2 = j1 + l;
-            j3 = j2 + l;
-            x0r = re[j0] + re[j1];
-            x0i = im[j0] + im[j1];
-            x1r = re[j0] - re[j1];
-            x1i = im[j0] - im[j1];
-            x2r = re[j2] + re[j3];
-            x2i = im[j2] + im[j3];
-            x3r = re[j2] - re[j3];
-            x3i = im[j2] - im[j3];
-            re[j0] = x0r + x2r;
-            im[j0] = x0i + x2i;
-            re[j2] = x2i - x0i;
-            im[j2] = x0r - x2r;
-            x0r = x1r - x3i;
-            x0i = x1i + x3r;
-            re[j1] = wk1r * (x0r - x0i);
-            im[j1] = wk1r * (x0r + x0i);
-            x0r = x3i + x1r;
-            x0i = x3r - x1i;
-            re[j3] = wk1r * (x0i - x0r);
-            im[j3] = wk1r * (x0i + x0r);
-        }
-    
-        k1 = 0;
-        m2 = 2 * m;
-    
-        k = m2;
-        while (k < _length) {
-            k1++;
-            k2 = 2 * k1;
-            wk2r = _waveTabler[k1];
-            wk2i = _waveTablei[k1];
-            wk1r = _waveTabler[k2];
-            wk1i = _waveTablei[k2];
-            wk3r = wk1r - 2 * wk2i * wk1i;
-            wk3i = 2 * wk2i * wk1r - wk1i;
-    
-            for (j0 in k...l + k) {
-                j1 = j0 + l;
-                j2 = j1 + l;
-                j3 = j2 + l;
-                x0r = re[j0] + re[j1];
-                x0i = im[j0] + im[j1];
-                x1r = re[j0] - re[j1];
-                x1i = im[j0] - im[j1];
-                x2r = re[j2] + re[j3];
-                x2i = im[j2] + im[j3];
-                x3r = re[j2] - re[j3];
-                x3i = im[j2] - im[j3];
-                re[j0] = x0r + x2r;
-                im[j0] = x0i + x2i;
-                x0r -= x2r;
-                x0i -= x2i;
-                re[j2] = wk2r * x0r - wk2i * x0i;
-                im[j2] = wk2r * x0i + wk2i * x0r;
-                x0r = x1r - x3i;
-                x0i = x1i + x3r;
-                re[j1] = wk1r * x0r - wk1i * x0i;
-                im[j1] = wk1r * x0i + wk1i * x0r;
-                x0r = x1r + x3i;
-                x0i = x1i - x3r;
-                re[j3] = wk3r * x0r - wk3i * x0i;
-                im[j3] = wk3r * x0i + wk3i * x0r;
-            }
-    
-            k2++;
-            wk1r = _waveTabler[k2];
-            wk1i = _waveTablei[k2];
-            wk3r = wk1r - 2 * wk2r * wk1i;
-            wk3i = 2 * wk2r * wk1r - wk1i;
-    
-            for (j0 in (k + m)...l + (k + m)) {
-                j1 = j0 + l;
-                j2 = j1 + l;
-                j3 = j2 + l;
-                x0r = re[j0] + re[j1];
-                x0i = im[j0] + im[j1];
-                x1r = re[j0] - re[j1];
-                x1i = im[j0] - im[j1];
-                x2r = re[j2] + re[j3];
-                x2i = im[j2] + im[j3];
-                x3r = re[j2] - re[j3];
-                x3i = im[j2] - im[j3];
-                re[j0] = x0r + x2r;
-                im[j0] = x0i + x2i;
-                x0r -= x2r;
-                x0i -= x2i;
-                re[j2] = -wk2i * x0r - wk2r * x0i;
-                im[j2] = -wk2i * x0i + wk2r * x0r;
-                x0r = x1r - x3i;
-                x0i = x1i + x3r;
-                re[j1] = wk1r * x0r - wk1i * x0i;
-                im[j1] = wk1r * x0i + wk1i * x0r;
-                x0r = x1r + x3i;
-                x0i = x1i - x3r;
-                re[j3] = wk3r * x0r - wk3i * x0i;
-                im[j3] = wk3r * x0i + wk3i * x0r;
-            }
-    
-            k += m2;
-        }
-    }
-    
-    
+		var j0:Int, j1:Int, j2:Int, j3:Int, k:Int, k1:Int, k2:Int, m:Int, m2:Int;
+		var wk1r:Float, wk2r:Float, wk3r:Float, x0r:Float, x1r:Float, x2r:Float, x3r:Float;
+		var wk1i:Float, wk2i:Float, wk3i:Float, x0i:Float, x1i:Float, x2i:Float, x3i:Float;
+
+		m = l << 2;
+
+		for (j0 in 0...l) {
+			j1 = j0 + l;
+			j2 = j1 + l;
+			j3 = j2 + l;
+			x0r = re[j0] + re[j1];
+			x0i = im[j0] + im[j1];
+			x1r = re[j0] - re[j1];
+			x1i = im[j0] - im[j1];
+			x2r = re[j2] + re[j3];
+			x2i = im[j2] + im[j3];
+			x3r = re[j2] - re[j3];
+			x3i = im[j2] - im[j3];
+			re[j0] = x0r + x2r;
+			im[j0] = x0i + x2i;
+			re[j2] = x0r - x2r;
+			im[j2] = x0i - x2i;
+			re[j1] = x1r - x3i;
+			im[j1] = x1i + x3r;
+			re[j3] = x1r + x3i;
+			im[j3] = x1i - x3r;
+		}
+
+		wk1r = _waveTabler[1];
+
+		for (j0 in m...l + m) {
+			j1 = j0 + l;
+			j2 = j1 + l;
+			j3 = j2 + l;
+			x0r = re[j0] + re[j1];
+			x0i = im[j0] + im[j1];
+			x1r = re[j0] - re[j1];
+			x1i = im[j0] - im[j1];
+			x2r = re[j2] + re[j3];
+			x2i = im[j2] + im[j3];
+			x3r = re[j2] - re[j3];
+			x3i = im[j2] - im[j3];
+			re[j0] = x0r + x2r;
+			im[j0] = x0i + x2i;
+			re[j2] = x2i - x0i;
+			im[j2] = x0r - x2r;
+			x0r = x1r - x3i;
+			x0i = x1i + x3r;
+			re[j1] = wk1r * (x0r - x0i);
+			im[j1] = wk1r * (x0r + x0i);
+			x0r = x3i + x1r;
+			x0i = x3r - x1i;
+			re[j3] = wk1r * (x0i - x0r);
+			im[j3] = wk1r * (x0i + x0r);
+		}
+
+		k1 = 0;
+		m2 = 2 * m;
+
+		k = m2;
+		while (k < _length) {
+			k1++;
+			k2 = 2 * k1;
+			wk2r = _waveTabler[k1];
+			wk2i = _waveTablei[k1];
+			wk1r = _waveTabler[k2];
+			wk1i = _waveTablei[k2];
+			wk3r = wk1r - 2 * wk2i * wk1i;
+			wk3i = 2 * wk2i * wk1r - wk1i;
+
+			for (j0 in k...l + k) {
+				j1 = j0 + l;
+				j2 = j1 + l;
+				j3 = j2 + l;
+				x0r = re[j0] + re[j1];
+				x0i = im[j0] + im[j1];
+				x1r = re[j0] - re[j1];
+				x1i = im[j0] - im[j1];
+				x2r = re[j2] + re[j3];
+				x2i = im[j2] + im[j3];
+				x3r = re[j2] - re[j3];
+				x3i = im[j2] - im[j3];
+				re[j0] = x0r + x2r;
+				im[j0] = x0i + x2i;
+				x0r -= x2r;
+				x0i -= x2i;
+				re[j2] = wk2r * x0r - wk2i * x0i;
+				im[j2] = wk2r * x0i + wk2i * x0r;
+				x0r = x1r - x3i;
+				x0i = x1i + x3r;
+				re[j1] = wk1r * x0r - wk1i * x0i;
+				im[j1] = wk1r * x0i + wk1i * x0r;
+				x0r = x1r + x3i;
+				x0i = x1i - x3r;
+				re[j3] = wk3r * x0r - wk3i * x0i;
+				im[j3] = wk3r * x0i + wk3i * x0r;
+			}
+
+			k2++;
+			wk1r = _waveTabler[k2];
+			wk1i = _waveTablei[k2];
+			wk3r = wk1r - 2 * wk2r * wk1i;
+			wk3i = 2 * wk2r * wk1r - wk1i;
+
+			for (j0 in (k + m)...l + (k + m)) {
+				j1 = j0 + l;
+				j2 = j1 + l;
+				j3 = j2 + l;
+				x0r = re[j0] + re[j1];
+				x0i = im[j0] + im[j1];
+				x1r = re[j0] - re[j1];
+				x1i = im[j0] - im[j1];
+				x2r = re[j2] + re[j3];
+				x2i = im[j2] + im[j3];
+				x3r = re[j2] - re[j3];
+				x3i = im[j2] - im[j3];
+				re[j0] = x0r + x2r;
+				im[j0] = x0i + x2i;
+				x0r -= x2r;
+				x0i -= x2i;
+				re[j2] = -wk2i * x0r - wk2r * x0i;
+				im[j2] = -wk2i * x0i + wk2r * x0r;
+				x0r = x1r - x3i;
+				x0i = x1i + x3r;
+				re[j1] = wk1r * x0r - wk1i * x0i;
+				im[j1] = wk1r * x0i + wk1i * x0r;
+				x0r = x1r + x3i;
+				x0i = x1i - x3r;
+				re[j3] = wk3r * x0r - wk3i * x0i;
+				im[j3] = wk3r * x0i + wk3i * x0r;
+			}
+
+			k += m2;
+		}
+	}
 
 	private function _rftfsub():Void {
 		var j:Int,
